@@ -1,12 +1,13 @@
 ChinaCheerleadingScoreSys
 =========================
+
 《中国啦啦操竞赛评分系统》
 
-该系统是读硕士阶段，和实验室另外两位同学一起开发
+该系统是读硕士阶段，与实验室另外两位同学一起开发
 
 系统已在2013-2014赛季、2014-2015赛季全国啦啦操各站比赛中投入使用
 
-系统由两个部分组成：
+系统由三个部分组成：
 
 1. PC端：系统总服务端（对应工程名ccss_pc）
 
@@ -14,4 +15,4 @@ ChinaCheerleadingScoreSys
 
 3. Web端：提供Android连接PC端数据库的服务（对应工程名ccss_sqlservice）
 
-4. score_sys.sql：数据库脚本（MicroSoft SQL Server）
+数据库采用MicroSoft SQL Server，对应脚本文件为score_sys.sql
