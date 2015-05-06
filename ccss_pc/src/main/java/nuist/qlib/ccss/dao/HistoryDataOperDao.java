@@ -14,7 +14,6 @@ import java.util.List;
  * @since ccss 1.0
  */
 public class HistoryDataOperDao {
-	// 连接数据库需要的变量
 	private ConnSQL connSql;
 
 	/** 构造函数，读取数据库的配置，同时与数据库建立连接 */
