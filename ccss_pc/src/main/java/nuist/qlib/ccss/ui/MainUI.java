@@ -31,6 +31,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 总界面。调用打分界面、出场顺序界面、导出成绩界面
@@ -58,6 +60,8 @@ public class MainUI {
 	private Composite composite;
 	public static ConfigPanel configPanel;
 
+	private static Logger logger = LoggerFactory.getLogger(MainUI.class);
+
 	/**
 	 * Launch the application.
 	 */
@@ -66,6 +70,7 @@ public class MainUI {
 			MainUI window = new MainUI();
 			window.open();
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -151,6 +156,7 @@ public class MainUI {
 					serverSocket);
 			mainServerInputThread.start();
 		} catch (IOException e1) {
+			logger.error(e1.toString());
 			e1.printStackTrace();
 		}
 		shell.setLayout(new FormLayout());

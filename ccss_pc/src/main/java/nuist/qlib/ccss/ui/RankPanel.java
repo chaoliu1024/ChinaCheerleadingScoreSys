@@ -406,7 +406,7 @@ public class RankPanel {
 		if (matchKind == 1) {
 			TableColumn referee10_score = new TableColumn(table, SWT.CENTER);
 			referee10_score.setText("裁判10");
-			referee10_score.setWidth(50);
+			referee10_score.setWidth(60);
 		}
 		TableColumn chief_referee_sub_score = new TableColumn(table, SWT.CENTER);
 		TableColumn chief_referee_add_score = new TableColumn(table, SWT.CENTER);
@@ -426,7 +426,7 @@ public class RankPanel {
 		chief_referee_add_score.setText("裁判长加分");
 		total.setText("总分");
 		rank.setText("排名");
-		team_name.setWidth(300);
+		team_name.setWidth(280);
 		referee1_score.setWidth(60);
 		referee2_score.setWidth(60);
 		referee3_score.setWidth(60);

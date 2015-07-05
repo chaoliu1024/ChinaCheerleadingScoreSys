@@ -354,7 +354,7 @@ public class ReviseDataPanel {
 								: items[i].getText(11));
 				one.put("add_score",
 						items[i].getText(12).trim().length() == 0 ? null
-								: items[i].getText(11));
+								: items[i].getText(12));
 				one.put("total", totalScore);
 				realData.add(one);
 			}
@@ -426,7 +426,7 @@ public class ReviseDataPanel {
 		if (matchKind == 1) {
 			TreeColumn referee10_score = new TreeColumn(tree, SWT.CENTER);
 			referee10_score.setText("裁判10");
-			referee10_score.setWidth(50);
+			referee10_score.setWidth(60);
 		}
 		TreeColumn chief_referee_sub_score = new TreeColumn(tree, SWT.CENTER);
 		TreeColumn chief_referee_add_score = new TreeColumn(tree, SWT.CENTER);
@@ -447,15 +447,15 @@ public class ReviseDataPanel {
 		total.setText("总分");
 		rank.setText("当前排名");
 		match_units.setWidth(200);
-		referee1_score.setWidth(48);
-		referee2_score.setWidth(46);
-		referee3_score.setWidth(46);
-		referee4_score.setWidth(44);
-		referee5_score.setWidth(66);
-		referee6_score.setWidth(48);
-		referee7_score.setWidth(50);
-		referee8_score.setWidth(49);
-		referee9_score.setWidth(50);
+		referee1_score.setWidth(60);
+		referee2_score.setWidth(60);
+		referee3_score.setWidth(60);
+		referee4_score.setWidth(60);
+		referee5_score.setWidth(60);
+		referee6_score.setWidth(60);
+		referee7_score.setWidth(60);
+		referee8_score.setWidth(60);
+		referee9_score.setWidth(60);
 		chief_referee_sub_score.setWidth(75);
 		chief_referee_add_score.setWidth(75);
 		total.setWidth(64);

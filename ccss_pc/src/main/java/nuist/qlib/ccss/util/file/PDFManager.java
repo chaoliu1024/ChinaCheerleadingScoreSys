@@ -103,12 +103,12 @@ public class PDFManager {
 					path + pdfName + ".pdf"));
 
 			// 设置字体,使用simsun.ttc字体样式
-			BaseFont bf = BaseFont.createFont(relativelyPath
-					+ "\\src\\main\\resources\\simsun.ttc,1",
-					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			// BaseFont bf = BaseFont.createFont(
-			// relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
-			// BaseFont.EMBEDDED);
+//			BaseFont bf = BaseFont.createFont(relativelyPath
+//					+ "\\src\\main\\resources\\simsun.ttc,1",
+//					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			BaseFont bf = BaseFont.createFont(
+					relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
+					BaseFont.EMBEDDED);
 
 			Font font = new Font(bf, 10, Font.BOLD);
 			font.getBaseFont();
@@ -214,7 +214,7 @@ public class PDFManager {
 
 			return true;
 		} catch (IOException | DocumentException e) {
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 			e.printStackTrace();
 			return false;
 		}
@@ -260,12 +260,12 @@ public class PDFManager {
 					path + pdfName + ".pdf"));
 
 			// 设置字体,使用simsun.ttc字体样式
-			BaseFont bf = BaseFont.createFont(relativelyPath
-					+ "\\src\\main\\resources\\simsun.ttc,1",
-					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			// BaseFont bf = BaseFont.createFont(
-			// relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
-			// BaseFont.EMBEDDED);
+			// BaseFont bf = BaseFont.createFont(relativelyPath
+			// + "\\src\\main\\resources\\simsun.ttc,1",
+			// BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			BaseFont bf = BaseFont.createFont(
+					relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
+					BaseFont.EMBEDDED);
 
 			Font font = new Font(bf, 10, Font.BOLD);
 			font.getBaseFont();

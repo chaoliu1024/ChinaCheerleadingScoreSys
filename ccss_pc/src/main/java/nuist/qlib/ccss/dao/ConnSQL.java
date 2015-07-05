@@ -4,7 +4,6 @@
 
 package nuist.qlib.ccss.dao;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class ConnSQL {
 	private Connection conn;
 
 	public ConnSQL() {
-		logger = Logger.getLogger(ConnSQL.class);
+		logger = LoggerFactory.getLogger(ConnSQL.class);
 		Properties props = new Properties();
 		try {
 			InputStream in = ConnSQL.class
