@@ -53,8 +53,9 @@ public class ViewDeviations {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setSize(764, 117);
-		shell.setImage(new Image(shell.getDisplay(), ViewDeviations.class
-				.getResourceAsStream("/img/logo.png")));
+		// shell.setImage(new Image(shell.getDisplay(), ViewDeviations.class
+		// .getResourceAsStream("/img/logo.png")));
+		shell.setImage(new Image(shell.getDisplay(), "img/logo.png"));
 		shell.setText(matchName + "---" + "裁判打分误差");
 		Rectangle displayBounds = shell.getDisplay().getPrimaryMonitor()
 				.getBounds();

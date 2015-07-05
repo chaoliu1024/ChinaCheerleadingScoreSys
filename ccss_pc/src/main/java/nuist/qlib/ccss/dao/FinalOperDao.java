@@ -100,7 +100,7 @@ public class FinalOperDao {
 	public List<HashMap<String, Object>> getTeamByCategory(int count,
 			String matchName, String category) {
 		String sql = "select top(?) b.id as id from score as a,match_order as b where a.team_id=b.id and b.match_category=? and b.match_name=? and b.final_preliminary=0 "
-				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score) desc";
+				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score,referee_add_score) desc";
 		List<HashMap<String, Object>> result = connSql.selectQuery(sql,
 				new Object[] { count, category, matchName });
 		return result;

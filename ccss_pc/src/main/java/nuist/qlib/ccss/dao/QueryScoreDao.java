@@ -85,8 +85,8 @@ public class QueryScoreDao {
 	/** 参数为参赛者的id号,该函数根据参赛者的id号、比赛类型(如预赛或决赛)显示参赛者所属项目的排名情况 ,按照总分排名 */
 	public List<HashMap<String, Object>> getRank(int id, int matchType) {
 		String sql = null;
-		sql = "select b.id as id,b.team_name as teamName,a.score1 as score1,a.score2 as score2,a.score3 as score3,a.score4 as score4,a.score5 as score5,a.score6 as score6,a.score7 as score7,a.score8 as score8,a.score9 as score9,a.score10 as score10,a.referee_sub_score as sub_score,a.total_score as total,a.id as scoreId,b.match_category as category from score as a,match_order as b where a.team_id=b.id and b.match_category=(select match_category from match_order where id=?) and b.match_name=(select match_name from match_order where id=?) and b.final_preliminary=? "
-				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score) desc";
+		sql = "select b.id as id,b.team_name as teamName,a.score1 as score1,a.score2 as score2,a.score3 as score3,a.score4 as score4,a.score5 as score5,a.score6 as score6,a.score7 as score7,a.score8 as score8,a.score9 as score9,a.score10 as score10,a.referee_sub_score as sub_score,a.referee_add_score as add_score,a.total_score as total,a.id as scoreId,b.match_category as category from score as a,match_order as b where a.team_id=b.id and b.match_category=(select match_category from match_order where id=?) and b.match_name=(select match_name from match_order where id=?) and b.final_preliminary=? "
+				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score,referee_add_score) desc";
 		List<HashMap<String, Object>> data = connSql.selectQuery(sql,
 				new Object[] { id, id, matchType });
 		return data;
@@ -95,8 +95,8 @@ public class QueryScoreDao {
 	/** 根据站点、比赛项目、比赛类型获取该项目的比赛排名成绩(用于打印使用) */
 	public List<HashMap<String, Object>> getRank(String matchName,
 			String category, int matchType) {
-		String sql = "select b.player_name as playerNames,b.id as id,b.team_name as teamName,a.score1 as score1,a.score2 as score2,a.score3 as score3,a.score4 as score4,a.score5 as score5,a.score6 as score6,a.score7 as score7,a.score8 as score8,a.score9 as score9,a.score10 as score10,a.referee_sub_score as sub_score,a.total_score as total,a.id as scoreId,b.match_category as category from score as a,match_order as b where a.team_id=b.id and b.match_category=? and b.match_name=? and b.final_preliminary=? "
-				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score) desc";
+		String sql = "select b.player_name as playerNames,b.id as id,b.team_name as teamName,a.score1 as score1,a.score2 as score2,a.score3 as score3,a.score4 as score4,a.score5 as score5,a.score6 as score6,a.score7 as score7,a.score8 as score8,a.score9 as score9,a.score10 as score10,a.referee_sub_score as sub_score,a.referee_add_score as add_score,a.total_score as total,a.id as scoreId,b.match_category as category from score as a,match_order as b where a.team_id=b.id and b.match_category=? and b.match_name=? and b.final_preliminary=? "
+				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score,referee_add_score) desc";
 		List<HashMap<String, Object>> data = connSql.selectQuery(sql,
 				new Object[] { category, matchName, matchType });
 		return data;
@@ -151,7 +151,7 @@ public class QueryScoreDao {
 	 */
 	public List<HashMap<String, Object>> sendDataToWeb(String matchName,
 			int preliminary) {
-		String sql = "select c.total_score as total,a.web_id as webId,c.total_score as totalScore,b.match_category as category from web_json a,match_order b,score c where a.web_id is not null and a.id=b.web_json_id and b.id=c.team_id and b.match_name=? and b.final_preliminary=? order by b.match_category,c.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score) desc";
+		String sql = "select c.total_score as total,a.web_id as webId,c.total_score as totalScore,b.match_category as category from web_json a,match_order b,score c where a.web_id is not null and a.id=b.web_json_id and b.id=c.team_id and b.match_name=? and b.final_preliminary=? order by b.match_category,c.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score,referee_add_score) desc";
 		List<HashMap<String, Object>> data = connSql.selectQuery(sql,
 				new Object[] { matchName, preliminary });
 		return data;
@@ -221,7 +221,7 @@ public class QueryScoreDao {
 	public List<HashMap<String, Object>> getRankForNoWeb(String matchName,
 			String category, int matchType) {
 		String sql = "select c.web_id as webId,b.id as id,b.team_name as teamName,a.score1 as score1,a.score2 as score2,a.score3 as score3,a.score4 as score4,a.score5 as score5,a.score6 as score6,a.score7 as score7,a.score8 as score8,a.score9 as score9,a.score10 as score10,a.referee_sub_score as sub_score,a.total_score as total,a.id as scoreId,b.match_category as category from score as a,match_order as b,web_json c where c.id=b.web_json_id and a.team_id=b.id and b.match_category=? and b.match_name=? and b.final_preliminary=? "
-				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score) desc";
+				+ "order by a.total_score desc,dbo.getTotalScore(score1,score2,score3,score4,score5,score6,score7,score8,score9,score10,referee_sub_score,referee_add_score) desc";
 		List<HashMap<String, Object>> data = connSql.selectQuery(sql,
 				new Object[] { category, matchName, matchType });
 		return data;

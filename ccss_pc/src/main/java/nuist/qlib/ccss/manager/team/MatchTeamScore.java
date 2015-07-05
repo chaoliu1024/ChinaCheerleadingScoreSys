@@ -141,7 +141,7 @@ public class MatchTeamScore {
 
 	/**
 	 * 
-	 * 比赛成绩录入数据库
+	 * <b>10</b>个分数录入数据库
 	 * 
 	 * @param matchName
 	 *            赛事名称
@@ -149,82 +149,42 @@ public class MatchTeamScore {
 	 *            比赛场次
 	 * @param matchOrder
 	 *            出场顺序
-	 * @param score1
-	 *            成绩1
-	 * @param score2
-	 *            成绩2
-	 * @param score3
-	 *            成绩3
-	 * @param score4
-	 *            成绩4
-	 * @param score5
-	 *            成绩5
-	 * @param score6
-	 *            成绩6
-	 * @param score7
-	 *            成绩7
-	 * @param score8
-	 *            成绩8
-	 * @param score9
-	 *            成绩9
-	 * @param score10
-	 *            成绩10
 	 * @param sub_score
 	 *            裁判长减分
+	 * @param add_score
+	 *            裁判长加分
 	 * @param total_score
 	 *            总成绩
-	 * @param score_error1
-	 *            误差1
-	 * @param score_error2
-	 *            误差2
-	 * @param score_error3
-	 *            误差3
-	 * @param score_error4
-	 *            误差4
-	 * @param score_error5
-	 *            误差5
-	 * @param score_error6
-	 *            误差6
-	 * @param score_error7
-	 *            误差7
-	 * @param score_error8
-	 *            误差8
-	 * @param score_error9
-	 *            误差9
-	 * @param score_error10
-	 *            误差10
-	 * @return
-	 * @throws
 	 */
 	public int insertScore(int id, String score1, String score2, String score3,
 			String score4, String score5, String score6, String score7,
 			String score8, String score9, String score10, String sub_score,
-			String total_score, float score_error1, float score_error2,
-			float score_error3, float score_error4, float score_error5,
-			float score_error6, float score_error7, float score_error8,
-			float score_error9, float score_error10) {
+			String add_score, String total_score, float score_error1,
+			float score_error2, float score_error3, float score_error4,
+			float score_error5, float score_error6, float score_error7,
+			float score_error8, float score_error9, float score_error10) {
 
 		Boolean isInserted = dao.selectOneTeam(id);
 		if (isInserted) {
 			// 更新成绩
 			return dao.updateTeamScore(id, score1, score2, score3, score4,
 					score5, score6, score7, score8, score9, score10, sub_score,
-					total_score, score_error1, score_error2, score_error3,
-					score_error4, score_error5, score_error6, score_error7,
-					score_error8, score_error9, score_error10);
+					add_score, total_score, score_error1, score_error2,
+					score_error3, score_error4, score_error5, score_error6,
+					score_error7, score_error8, score_error9, score_error10);
 		} else {
 			// 插入成绩
 			return dao.insertTeamScore(id, score1, score2, score3, score4,
 					score5, score6, score7, score8, score9, score10, sub_score,
-					total_score, score_error1, score_error2, score_error3,
-					score_error4, score_error5, score_error6, score_error7,
-					score_error8, score_error9, score_error10);
+					add_score, total_score, score_error1, score_error2,
+					score_error3, score_error4, score_error5, score_error6,
+					score_error7, score_error8, score_error9, score_error10);
 		}
 	}
 
 	/**
 	 * 
-	 * 比赛成绩录入数据库
+	 * <b>9</b>个分数录入数据库
 	 * 
 	 * @param matchName
 	 *            赛事名称
@@ -232,74 +192,30 @@ public class MatchTeamScore {
 	 *            比赛场次
 	 * @param matchOrder
 	 *            出场顺序
-	 * @param score1
-	 *            成绩1
-	 * @param score2
-	 *            成绩2
-	 * @param score3
-	 *            成绩3
-	 * @param score4
-	 *            成绩4
-	 * @param score5
-	 *            成绩5
-	 * @param score6
-	 *            成绩6
-	 * @param score7
-	 *            成绩7
-	 * @param score8
-	 *            成绩8
-	 * @param score9
-	 *            成绩9
-	 * @param score10
-	 *            成绩10
-	 * @param sub_score
-	 *            裁判长减分
-	 * @param total_score
-	 *            总成绩
-	 * @param score_error1
-	 *            误差1
-	 * @param score_error2
-	 *            误差2
-	 * @param score_error3
-	 *            误差3
-	 * @param score_error4
-	 *            误差4
-	 * @param score_error5
-	 *            误差5
-	 * @param score_error6
-	 *            误差6
-	 * @param score_error7
-	 *            误差7
-	 * @param score_error8
-	 *            误差8
-	 * @param score_error9
-	 *            误差9
-	 * @return
-	 * @throws
 	 */
 	public int insertScore(int id, String score1, String score2, String score3,
 			String score4, String score5, String score6, String score7,
-			String score8, String score9, String score10, String sub_score,
-			String total_score, float score_error1, float score_error2,
-			float score_error3, float score_error4, float score_error5,
-			float score_error6, float score_error7, float score_error8,
-			float score_error9) {
+			String score8, String score9, String sub_score,
+			String add_score, String total_score, float score_error1,
+			float score_error2, float score_error3, float score_error4,
+			float score_error5, float score_error6, float score_error7,
+			float score_error8, float score_error9) {
 
 		Boolean isInserted = dao.selectOneTeam(id);
 		if (isInserted) {
 			// 更新成绩
 			return dao.updateTeamScore(id, score1, score2, score3, score4,
-					score5, score6, score7, score8, score9, score10, sub_score,
-					total_score, score_error1, score_error2, score_error3,
-					score_error4, score_error5, score_error6, score_error7,
-					score_error8, score_error9);
+					score5, score6, score7, score8, score9, sub_score,
+					add_score, total_score, score_error1, score_error2,
+					score_error3, score_error4, score_error5, score_error6,
+					score_error7, score_error8, score_error9);
 		} else {
 			// 插入成绩
 			return dao.insertTeamScore(id, score1, score2, score3, score4,
-					score5, score6, score7, score8, score9, score10, sub_score,
-					total_score, score_error1, score_error2, score_error3,
-					score_error4, score_error5, score_error6, score_error7,
-					score_error8, score_error9);
+					score5, score6, score7, score8, score9, sub_score,
+					add_score, total_score, score_error1, score_error2,
+					score_error3, score_error4, score_error5, score_error6,
+					score_error7, score_error8, score_error9);
 		}
 	}
 

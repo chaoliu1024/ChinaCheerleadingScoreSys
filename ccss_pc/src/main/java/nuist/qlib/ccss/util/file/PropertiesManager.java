@@ -6,8 +6,10 @@ package nuist.qlib.ccss.util.file;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * properties文件的处理
@@ -19,8 +21,11 @@ public class PropertiesManager {
 	private String fileName; // 要操作的文件
 	private Properties pro;
 
+	private Logger logger = LoggerFactory.getLogger(PropertiesManager.class);
+
 	public PropertiesManager() {
-		this.fileName = "/downLoadConfig.properties";
+		// this.fileName = "/downLoadConfig.properties";
+		this.fileName = "downLoadConfig.properties";
 		pro = new Properties();
 	}
 
@@ -32,7 +37,9 @@ public class PropertiesManager {
 	public String[] readProperties() {
 		String[] result = new String[4];
 		try {
-			InputStream in = PropertiesManager.class.getResourceAsStream(fileName);
+			// InputStream in =
+			// PropertiesManager.class.getResourceAsStream(fileName);
+			FileInputStream in = new FileInputStream(fileName);
 			pro.load(in);
 			result[0] = pro.getProperty("downloadUrl", "");
 			result[1] = pro.getProperty("tempDir", "");
@@ -40,6 +47,7 @@ public class PropertiesManager {
 			result[3] = pro.getProperty("uploadScoreUrl", "");
 			in.close();
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 		return result;
@@ -74,7 +82,7 @@ public class PropertiesManager {
 			pro.store(out, "update");
 			out.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -97,6 +105,7 @@ public class PropertiesManager {
 			pro.store(out, "update");
 			out.close();
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 	}

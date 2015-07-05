@@ -4,6 +4,7 @@
 
 package nuist.qlib.ccss.dao;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,11 +35,14 @@ public class ConnSQL {
 	private Connection conn;
 
 	public ConnSQL() {
-		logger = Logger.getLogger(ConnSQL.class.getName());
+		logger = Logger.getLogger(ConnSQL.class);
 		Properties props = new Properties();
 		try {
-			InputStream in = ConnSQL.class
-					.getResourceAsStream("/dataBase.properties");
+			// InputStream in = ConnSQL.class
+			// .getResourceAsStream("/dataBase.properties");
+			// String relativelyPath=System.getProperty("user.dir");
+			InputStream in = new FileInputStream(System.getProperty("user.dir")
+					+ "\\dataBase.properties");
 			props.load(in);
 			port = props.getProperty("port");
 			ip = props.getProperty("ip");
@@ -67,7 +71,7 @@ public class ConnSQL {
 				return conn;
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error(e.getMessage());
+				logger.error(e.toString());
 				return conn;
 			}
 		}
@@ -224,7 +228,8 @@ public class ConnSQL {
 			} else
 				result = -1;
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
+			logger.error(e.toString());
 			result = -1;
 		}
 		return result;

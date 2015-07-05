@@ -60,8 +60,6 @@ public class MainUI {
 
 	/**
 	 * Launch the application.
-	 * 
-	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
@@ -96,7 +94,9 @@ public class MainUI {
 		shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		shell.setSize(1123, 710);
 		shell.setText("啦啦操竞赛评分系统");
-		shell.setImage(new Image(display, MainUI.class.getResourceAsStream("/img/logo.png")));
+		// shell.setImage(new Image(display,
+		// MainUI.class.getResourceAsStream("/img/logo.png")));
+		shell.setImage(new Image(display, "img/logo.png"));
 		shell.addShellListener(new ShellAdapter() {
 			public void shellClosed(ShellEvent e) {
 				MessageBox messagebox = new MessageBox(shell, SWT.ICON_QUESTION
@@ -116,11 +116,7 @@ public class MainUI {
 	}
 
 	/**
-	 * 
 	 * 窗口居中
-	 * @param @param shell
-	 * @return void
-	 * @throws
 	 */
 	private void center(Shell shell) {
 		Monitor monitor = shell.getMonitor();
@@ -132,19 +128,13 @@ public class MainUI {
 	}
 
 	/**
-	 * 
-	 * @author liuchao
-	 * @version 2014-3-4 上午10:23:19
-	 * @Description: 初始化界面
-	 * @param
-	 * @return void
-	 * @throws
+	 * 初始化界面
 	 */
 	private void defaultInit() {
 
 		try {
-			// 打开时清空adress.txt
-			File f = new File("Adress.txt");
+			// 打开时清空address.txt
+			File f = new File("Address.txt");
 			FileWriter fw = new FileWriter(f);
 			fw.write("");
 			fw.close();

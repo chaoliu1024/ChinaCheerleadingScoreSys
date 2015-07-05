@@ -26,9 +26,11 @@ public class TeamScoreDao {
 	PreparedStatement st;
 	Connection conn;
 
-	/** 构造函数，读取数据库的配置，同时与数据库建立连接 */
+	/**
+	 * 取数据库的配置，同时与数据库建立连接
+	 */
 	public TeamScoreDao() {
-		logger = Logger.getLogger(TeamScoreDao.class.getName());
+		logger = Logger.getLogger(TeamScoreDao.class);
 		this.connSql = new ConnSQL();
 		conn = connSql.connectDataBase();
 	}
@@ -165,7 +167,7 @@ public class TeamScoreDao {
 	}
 
 	/**
-	 * 更新比赛成绩 10个误差分数
+	 * 更新比赛成绩 <b>10</b>个误差分数
 	 * 
 	 * @param matchName
 	 *            赛事名称
@@ -173,267 +175,114 @@ public class TeamScoreDao {
 	 *            比赛场次
 	 * @param matchOrder
 	 *            出场顺序
-	 * @param score1
-	 *            成绩1
-	 * @param score2
-	 *            成绩2
-	 * @param score3
-	 *            成绩3
-	 * @param score4
-	 *            成绩4
-	 * @param score5
-	 *            成绩5
-	 * @param score6
-	 *            成绩6
-	 * @param score7
-	 *            成绩7
-	 * @param score8
-	 *            成绩8
-	 * @param score9
-	 *            成绩9
-	 * @param score10
-	 *            成绩10
-	 * @param sub_score
-	 *            裁判长减分
-	 * @param total_score
-	 *            总成绩
-	 * @return
-	 * @throws
 	 */
 	public int updateTeamScore(int id, String score1, String score2,
 			String score3, String score4, String score5, String score6,
 			String score7, String score8, String score9, String score10,
-			String sub_score, String total_score, float score_error1,
-			float score_error2, float score_error3, float score_error4,
-			float score_error5, float score_error6, float score_error7,
-			float score_error8, float score_error9, float score_error10) {
-		String sql = "update score set score1 = ?, score2 = ?, score3 = ?, score4 = ?, score5 = ?, score6 = ?, score7 = ?, score8 = ?, score9 = ?, score10 = ?, referee_sub_score = ?, total_score = ?, score_error1 = ?, score_error2 = ?, score_error3 = ?, score_error4 = ?, score_error5 = ?, score_error6 = ?, score_error7 = ?, score_error8 = ?, score_error9 = ?, score_error10 = ? where team_id = ?";
-		try {
-			st = conn.prepareStatement(sql);
-			st.setFloat(1, Float.valueOf(score1));
-			st.setFloat(2, Float.valueOf(score2));
-			st.setFloat(3, Float.valueOf(score3));
-			st.setFloat(4, Float.valueOf(score4));
-			st.setFloat(5, Float.valueOf(score5));
-			st.setFloat(6, Float.valueOf(score6));
-			st.setFloat(7, Float.valueOf(score7));
-			st.setFloat(8, Float.valueOf(score8));
-			st.setFloat(9, Float.valueOf(score9));
+			String sub_score, String add_score, String total_score,
+			float score_error1, float score_error2, float score_error3,
+			float score_error4, float score_error5, float score_error6,
+			float score_error7, float score_error8, float score_error9,
+			float score_error10) {
+		String sql = "update score set score1 = ?, score2 = ?, score3 = ?, score4 = ?, score5 = ?, score6 = ?, score7 = ?, score8 = ?, score9 = ?, score10 = ?, referee_sub_score = ?, referee_add_score = ?, total_score = ?, score_error1 = ?, score_error2 = ?, score_error3 = ?, score_error4 = ?, score_error5 = ?, score_error6 = ?, score_error7 = ?, score_error8 = ?, score_error9 = ?, score_error10 = ? where team_id = ?";
 
-			if (score10 != null && !score10.equals("")) {
-				st.setFloat(10, Float.valueOf(score10));
-			} else {
-				st.setNull(10, java.sql.Types.FLOAT);
-			}
-
-			if (sub_score != null && !sub_score.equals("")) {
-				st.setFloat(11, Float.valueOf(sub_score));
-			} else {
-				st.setNull(11, java.sql.Types.FLOAT);
-			}
-			st.setFloat(12, Float.valueOf(total_score));
-
-			st.setFloat(13, score_error1);
-			st.setFloat(14, score_error2);
-			st.setFloat(15, score_error3);
-			st.setFloat(16, score_error4);
-			st.setFloat(17, score_error5);
-			st.setFloat(18, score_error6);
-			st.setFloat(19, score_error7);
-			st.setFloat(20, score_error8);
-			st.setFloat(21, score_error9);
-			st.setFloat(22, score_error10);
-
-			st.setInt(23, id);
-
-			return st.executeUpdate();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			return -1;
-		} finally {
-			_close();
-		}
+		return connSql.updateObject(sql, new Object[] { score1, score2, score3,
+				score4, score5, score6, score7, score8, score9,
+				score10, sub_score, add_score, total_score, score_error1,
+				score_error2, score_error3, score_error4, score_error5,
+				score_error6, score_error7, score_error8, score_error9,
+				score_error10, id });
 	}
 
 	/**
-	 * 9个误差分数
+	 * 插入比赛成绩 <b>10</b>个误差分数
+	 */
+	public int insertTeamScore(int id, String _score1, String _score2,
+			String _score3, String _score4, String _score5, String _score6,
+			String _score7, String _score8, String _score9, String _score10,
+			String _sub_score, String _add_score, String _total_score,
+			float score_error1, float score_error2, float score_error3,
+			float score_error4, float score_error5, float score_error6,
+			float score_error7, float score_error8, float score_error9,
+			float score_error10) {
+
+		float score1 = Float.parseFloat(_score1);
+		float score2 = Float.parseFloat(_score2);
+		float score3 = Float.parseFloat(_score3);
+		float score4 = Float.parseFloat(_score4);
+		float score5 = Float.parseFloat(_score5);
+		float score6 = Float.parseFloat(_score6);
+		float score7 = Float.parseFloat(_score7);
+		float score8 = Float.parseFloat(_score8);
+		float score9 = Float.parseFloat(_score9);
+		float score10 = Float.parseFloat(_score10);
+		float sub_score = Float.parseFloat(_sub_score);
+		float add_score = Float.parseFloat(_add_score);
+		float total_score = Float.parseFloat(_total_score);
+
+		String sql = "insert into score (team_id, score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, referee_sub_score, referee_add_score, total_score, score_error1, score_error2, score_error3, score_error4, score_error5, score_error6, score_error7, score_error8, score_error9, score_error10) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+		return connSql.insertObject(sql, new Object[] { id, score1, score2,
+				score3, score4, score5, score6, score7, score8, score9,
+				score10, sub_score, add_score, total_score, score_error1,
+				score_error2, score_error3, score_error4, score_error5,
+				score_error6, score_error7, score_error8, score_error9,
+				score_error10 });
+	}
+
+	/**
+	 * <b>9</b>个误差分数
 	 * 
 	 * @return
 	 * @throws
 	 */
 	public int updateTeamScore(int id, String score1, String score2,
 			String score3, String score4, String score5, String score6,
-			String score7, String score8, String score9, String score10,
-			String sub_score, String total_score, float score_error1,
+			String score7, String score8, String score9, String sub_score,
+			String add_score, String total_score, float score_error1,
 			float score_error2, float score_error3, float score_error4,
 			float score_error5, float score_error6, float score_error7,
 			float score_error8, float score_error9) {
-		String sql = "update score set score1 = ?, score2 = ?, score3 = ?, score4 = ?, score5 = ?, score6 = ?, score7 = ?, score8 = ?, score9 = ?, score10 = ?, referee_sub_score = ?, total_score = ?, score_error1 = ?, score_error2 = ?, score_error3 = ?, score_error4 = ?, score_error5 = ?, score_error6 = ?, score_error7 = ?, score_error8 = ?, score_error9 = ? where team_id = ?";
-		try {
-			st = conn.prepareStatement(sql);
-			st.setFloat(1, Float.valueOf(score1));
-			st.setFloat(2, Float.valueOf(score2));
-			st.setFloat(3, Float.valueOf(score3));
-			st.setFloat(4, Float.valueOf(score4));
-			st.setFloat(5, Float.valueOf(score5));
-			st.setFloat(6, Float.valueOf(score6));
-			st.setFloat(7, Float.valueOf(score7));
-			st.setFloat(8, Float.valueOf(score8));
-			st.setFloat(9, Float.valueOf(score9));
+		String sql = "update score set score1 = ?, score2 = ?, score3 = ?, score4 = ?, score5 = ?, score6 = ?, score7 = ?, score8 = ?, score9 = ?, referee_sub_score = ?, referee_add_score = ?, total_score = ?, score_error1 = ?, score_error2 = ?, score_error3 = ?, score_error4 = ?, score_error5 = ?, score_error6 = ?, score_error7 = ?, score_error8 = ?, score_error9 = ? where team_id = ?";
 
-			if (score10 != null && !score10.equals("")) {
-				st.setFloat(10, Float.valueOf(score10));
-			} else {
-				st.setNull(10, java.sql.Types.FLOAT);
-			}
-
-			if (sub_score != null && !sub_score.equals("")) {
-				st.setFloat(11, Float.valueOf(sub_score));
-			} else {
-				st.setNull(11, java.sql.Types.FLOAT);
-			}
-			st.setFloat(12, Float.valueOf(total_score));
-
-			st.setFloat(13, score_error1);
-			st.setFloat(14, score_error2);
-			st.setFloat(15, score_error3);
-			st.setFloat(16, score_error4);
-			st.setFloat(17, score_error5);
-			st.setFloat(18, score_error6);
-			st.setFloat(19, score_error7);
-			st.setFloat(20, score_error8);
-			st.setFloat(21, score_error9);
-
-			st.setInt(22, id);
-
-			return st.executeUpdate();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			return -1;
-		} finally {
-			_close();
-		}
+		return connSql.updateObject(sql, new Object[] { score1, score2, score3,
+				score4, score5, score6, score7, score8, score9, sub_score,
+				add_score, total_score, score_error1, score_error2,
+				score_error3, score_error4, score_error5, score_error6,
+				score_error7, score_error8, score_error9, id });
 	}
 
 	/**
-	 * 插入比赛成绩 10个误差分数
-	 * 
-	 * @return
-	 * @throws
+	 * 插入比赛成绩 <b>9/b>个误差分数
 	 */
-	public int insertTeamScore(int id, String score1, String score2,
-			String score3, String score4, String score5, String score6,
-			String score7, String score8, String score9, String score10,
-			String sub_score, String total_score, float score_error1,
-			float score_error2, float score_error3, float score_error4,
-			float score_error5, float score_error6, float score_error7,
-			float score_error8, float score_error9, float score_error10) {
-		String sql = "insert into score (team_id, score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, referee_sub_score, total_score, score_error1, score_error2, score_error3, score_error4, score_error5, score_error6, score_error7, score_error8, score_error9, score_error10) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-		try {
-			st = conn.prepareStatement(sql);
-			st.setInt(1, id);
-			st.setFloat(2, Float.valueOf(score1));
-			st.setFloat(3, Float.valueOf(score2));
-			st.setFloat(4, Float.valueOf(score3));
-			st.setFloat(5, Float.valueOf(score4));
-			st.setFloat(6, Float.valueOf(score5));
-			st.setFloat(7, Float.valueOf(score6));
-			st.setFloat(8, Float.valueOf(score7));
-			st.setFloat(9, Float.valueOf(score8));
-			st.setFloat(10, Float.valueOf(score9));
-
-			if (score10 != null && !score10.equals("")) {
-				st.setFloat(11, Float.valueOf(score10));
-			} else {
-				st.setNull(11, java.sql.Types.FLOAT);
-			}
-
-			if (sub_score != null && !sub_score.equals("")) {
-				st.setFloat(12, Float.valueOf(sub_score));
-			} else {
-				st.setNull(12, java.sql.Types.FLOAT);
-			}
-			st.setFloat(13, Float.valueOf(total_score));
-
-			st.setFloat(14, score_error1);
-			st.setFloat(15, score_error2);
-			st.setFloat(16, score_error3);
-			st.setFloat(17, score_error4);
-			st.setFloat(18, score_error5);
-			st.setFloat(19, score_error6);
-			st.setFloat(20, score_error7);
-			st.setFloat(21, score_error8);
-			st.setFloat(22, score_error9);
-			st.setFloat(23, score_error10);
-
-			st.execute();
-			return 1;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			return -1;
-		} finally {
-			_close();
-		}
-	}
-
-	public int insertTeamScore(int id, String score1, String score2,
-			String score3, String score4, String score5, String score6,
-			String score7, String score8, String score9, String score10,
-			String sub_score, String total_score, float score_error1,
+	public int insertTeamScore(int id, String _score1, String _score2,
+			String _score3, String _score4, String _score5, String _score6,
+			String _score7, String _score8, String _score9, String _sub_score,
+			String _add_score, String _total_score, float score_error1,
 			float score_error2, float score_error3, float score_error4,
 			float score_error5, float score_error6, float score_error7,
 			float score_error8, float score_error9) {
-		String sql = "insert into score (team_id, score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, referee_sub_score, total_score, score_error1, score_error2, score_error3, score_error4, score_error5, score_error6, score_error7, score_error8, score_error9) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-		try {
-			st = conn.prepareStatement(sql);
-			st.setInt(1, id);
-			st.setFloat(2, Float.valueOf(score1));
-			st.setFloat(3, Float.valueOf(score2));
-			st.setFloat(4, Float.valueOf(score3));
-			st.setFloat(5, Float.valueOf(score4));
-			st.setFloat(6, Float.valueOf(score5));
-			st.setFloat(7, Float.valueOf(score6));
-			st.setFloat(8, Float.valueOf(score7));
-			st.setFloat(9, Float.valueOf(score8));
-			st.setFloat(10, Float.valueOf(score9));
+		float score1 = Float.parseFloat(_score1);
+		float score2 = Float.parseFloat(_score2);
+		float score3 = Float.parseFloat(_score3);
+		float score4 = Float.parseFloat(_score4);
+		float score5 = Float.parseFloat(_score5);
+		float score6 = Float.parseFloat(_score6);
+		float score7 = Float.parseFloat(_score7);
+		float score8 = Float.parseFloat(_score8);
+		float score9 = Float.parseFloat(_score9);
+		float sub_score = Float.parseFloat(_sub_score);
+		float add_score = Float.parseFloat(_add_score);
+		float total_score = Float.parseFloat(_total_score);
 
-			if (score10 != null && !score10.equals("")) {
-				st.setFloat(11, Float.valueOf(score10));
-			} else {
-				st.setNull(11, java.sql.Types.FLOAT);
-			}
+		String sql = "insert into score (team_id, score1, score2, score3, score4, score5, score6, score7, score8, score9, referee_sub_score, referee_add_score, total_score, score_error1, score_error2, score_error3, score_error4, score_error5, score_error6, score_error7, score_error8, score_error9) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-			if (sub_score != null && !sub_score.equals("")) {
-				st.setFloat(12, Float.valueOf(sub_score));
-			} else {
-				st.setNull(12, java.sql.Types.FLOAT);
-			}
-			st.setFloat(13, Float.valueOf(total_score));
-
-			st.setFloat(14, score_error1);
-			st.setFloat(15, score_error2);
-			st.setFloat(16, score_error3);
-			st.setFloat(17, score_error4);
-			st.setFloat(18, score_error5);
-			st.setFloat(19, score_error6);
-			st.setFloat(20, score_error7);
-			st.setFloat(21, score_error8);
-			st.setFloat(22, score_error9);
-
-			st.execute();
-			return 1;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-			return -1;
-		} finally {
-			_close();
-		}
+		return connSql.insertObject(sql, new Object[] { id, score1, score2,
+				score3, score4, score5, score6, score7, score8, score9,
+				sub_score, add_score, total_score, score_error1, score_error2,
+				score_error3, score_error4, score_error5, score_error6,
+				score_error7, score_error8, score_error9 });
 	}
 
 	/**

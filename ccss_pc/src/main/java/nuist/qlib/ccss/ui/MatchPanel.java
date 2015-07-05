@@ -74,6 +74,11 @@ public class MatchPanel extends Composite {
 	// 裁判长减分
 	private Label deduction_label;
 	private static Text deduction_score;
+
+	// 裁判长加分
+	private Label append_label;
+	private static Text append_score;
+
 	// 总得分
 	private Label total_label;
 	private Label total_score;
@@ -164,6 +169,7 @@ public class MatchPanel extends Composite {
 	// 参赛队伍接收者名称(裁判长和裁判)
 	private String scoreReceiver[] = { "chiefJudge01", "chiefJudge02",
 			"chiefJudge03" };
+
 	// 分数接收者名称(裁判长)
 	private Label replay_match_model_Label;
 	private Label group;
@@ -183,7 +189,8 @@ public class MatchPanel extends Composite {
 		title_composite.setBounds(0, 10, 965, 151);
 
 		selectBtn = new Button(title_composite, SWT.NONE);
-		selectBtn.setBounds(17, 20, 44, 27);
+		selectBtn.setFont(SWTResourceManager.getFont("微软雅黑", 13, SWT.NORMAL));
+		selectBtn.setBounds(27, 105, 80, 29);
 		selectBtn.setText("赛事");
 
 		title = new Label(title_composite, SWT.CENTER);
@@ -201,24 +208,24 @@ public class MatchPanel extends Composite {
 		match_model_label = new Label(title_composite, SWT.NONE);
 		match_model_label.setFont(SWTResourceManager.getFont("微软雅黑", 14,
 				SWT.NORMAL));
-		match_model_label.setBounds(214, 112, 100, 29);
+		match_model_label.setBounds(345, 105, 100, 29);
 		match_model_label.setText("赛事模式：");
 
 		match_model_combo = new Combo(title_composite, SWT.NONE);
 		match_model_combo.setFont(SWTResourceManager.getFont("微软雅黑", 12,
 				SWT.NORMAL));
-		match_model_combo.setBounds(320, 112, 88, 25);
+		match_model_combo.setBounds(451, 105, 88, 25);
 
 		match_num_label = new Label(title_composite, SWT.NONE);
 		match_num_label.setText("场次：");
 		match_num_label.setFont(SWTResourceManager.getFont("微软雅黑", 14,
 				SWT.NORMAL));
-		match_num_label.setBounds(24, 112, 57, 29);
+		match_num_label.setBounds(162, 105, 57, 29);
 
 		match_num_combo = new Combo(title_composite, SWT.NONE);
 		match_num_combo.setFont(SWTResourceManager.getFont("微软雅黑", 12,
 				SWT.NORMAL));
-		match_num_combo.setBounds(87, 112, 64, 25);
+		match_num_combo.setBounds(225, 105, 64, 25);
 
 		group = new Label(title_composite, SWT.NONE);
 		group.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
@@ -333,25 +340,36 @@ public class MatchPanel extends Composite {
 		deduction_label.setText("裁判长减分：");
 		deduction_label.setFont(SWTResourceManager.getFont("微软雅黑", 16,
 				SWT.NORMAL));
-		deduction_label.setBounds(107, 181, 130, 38);
+		deduction_label.setBounds(21, 181, 130, 38);
 
 		deduction_score = new Text(score_group, SWT.BORDER);
 		deduction_score.setFont(SWTResourceManager.getFont("微软雅黑", 14,
 				SWT.NORMAL));
-		deduction_score.setBounds(243, 186, 73, 28);
+		deduction_score.setBounds(152, 186, 73, 28);
+
+		append_label = new Label(score_group, SWT.NONE);
+		append_label.setText("裁判长加分：");
+		append_label
+				.setFont(SWTResourceManager.getFont("微软雅黑", 16, SWT.NORMAL));
+		append_label.setBounds(269, 181, 130, 38);
+
+		append_score = new Text(score_group, SWT.BORDER);
+		append_score
+				.setFont(SWTResourceManager.getFont("微软雅黑", 14, SWT.NORMAL));
+		append_score.setBounds(405, 186, 73, 28);
 
 		total_label = new Label(score_group, SWT.HORIZONTAL);
 		total_label.setForeground(SWTResourceManager.getColor(255, 0, 0));
 		total_label.setText("最后得分：");
 		total_label.setFont(SWTResourceManager.getFont("微软雅黑", 16, SWT.BOLD));
 		total_label.setAlignment(SWT.CENTER);
-		total_label.setBounds(424, 181, 110, 38);
+		total_label.setBounds(579, 181, 110, 38);
 
 		total_score = new Label(score_group, SWT.HORIZONTAL);
 		total_score.setForeground(SWTResourceManager.getColor(255, 0, 0));
 		total_score.setFont(SWTResourceManager.getFont("微软雅黑", 16, SWT.BOLD));
 		total_score.setAlignment(SWT.CENTER);
-		total_score.setBounds(524, 182, 92, 28);
+		total_score.setBounds(695, 181, 92, 28);
 
 		replay_group = new Group(this, SWT.NONE);
 		replay_group
@@ -467,7 +485,7 @@ public class MatchPanel extends Composite {
 				if (matchNames.length == 0) {
 					MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 					box.setText("提示");
-					box.setMessage("无比赛进行！");
+					box.setMessage("无比赛进行!");
 					box.open();
 				} else {
 					MatchDialog dialog = new MatchDialog(ref_edit_shell);
@@ -480,7 +498,8 @@ public class MatchPanel extends Composite {
 
 					if (matchName != null && !matchName.equals("")) {
 						replayMatchName = matchName;
-						match_num = query.getInitMatchNum(matchName); // 场次
+						// 场次
+						match_num = query.getInitMatchNum(matchName);
 						match_num_combo.setText(String.valueOf(match_num));
 						match_model_combo.removeAll();
 						title.setText("参赛队伍");
@@ -519,7 +538,6 @@ public class MatchPanel extends Composite {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-
 			}
 		});
 	}
@@ -543,10 +561,11 @@ public class MatchPanel extends Composite {
 
 					MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 					box.setText("提示");
-					box.setMessage("请选择要进行的比赛！");
+					box.setMessage("请选择要进行的比赛!");
 					box.open();
 				} else {
-					List<String> matchNum = query.getMatchNum(matchName); // 获得未进行比赛的场次
+					// 获得未进行比赛的场次
+					List<String> matchNum = query.getMatchNum(matchName);
 					for (int i = 0; i < matchNum.size(); i++) {
 						match_num_combo.add(matchNum.get(i));
 					}
@@ -576,8 +595,8 @@ public class MatchPanel extends Composite {
 				if (matchOrder > 0) {
 					matchOrder = -1;
 				}
-
-				match_num = Integer.parseInt(match_num_combo.getText()); // 重新设置比赛场次
+				// 重新设置比赛场次
+				match_num = Integer.parseInt(match_num_combo.getText());
 				cleanScore();
 				hasScore = false;
 				reSelect = false;
@@ -597,20 +616,26 @@ public class MatchPanel extends Composite {
 					List<HashMap<String, Object>> data = query.getInitTeam(
 							match_num, matchType, matchName);
 					if (data.size() != 0) {
-						category = data.get(0).get("category").toString(); // 比赛项目
+						// 比赛项目
+						category = data.get(0).get("category").toString();
 						if (category.indexOf("技巧") != -1) {
 							score10.setEnabled(true);
 						} else {
 							score10.setEnabled(false);
 						}
-						team = data.get(0).get("teamName").toString(); // 参赛单位
-						matchName = data.get(0).get("matchName").toString(); // 赛事名称
+						// 参赛单位
+						team = data.get(0).get("teamName").toString();
+						// 赛事名称
+						matchName = data.get(0).get("matchName").toString();
+						// 出场顺序
 						matchOrder = Integer.valueOf(data.get(0)
-								.get("matchOrder").toString()); // 出场顺序
-						id = Integer.valueOf(data.get(0).get("id").toString()); // 队伍id
+								.get("matchOrder").toString());
+						// 队伍id
+						id = Integer.valueOf(data.get(0).get("id").toString());
 						title.setText(team);
 						label_category.setText(category);
-						group_num = MainUI.configPanel.group_combo.getText();// 裁判组数
+						// 裁判组数
+						group_num = MainUI.configPanel.group_combo.getText();
 
 						/********************************** 发送队伍信息 ***********************************/
 						if (group_num.equals("1")) {// 只有一组裁判
@@ -636,7 +661,7 @@ public class MatchPanel extends Composite {
 															ref_edit_shell,
 															SWT.OK);
 													box.setText("提示");
-													box.setMessage("发送失败，请重发！");
+													box.setMessage("发送失败，请重发!");
 													int val = box.open();
 													if (val == SWT.OK)
 														return;
@@ -651,7 +676,7 @@ public class MatchPanel extends Composite {
 															ref_edit_shell,
 															SWT.OK);
 													box.setText("提示");
-													box.setMessage("未获得接收地址，请稍等片刻！");
+													box.setMessage("未获得接收地址，请稍等片刻!");
 													int val = box.open();
 													if (val == SWT.OK)
 														return;
@@ -672,13 +697,13 @@ public class MatchPanel extends Composite {
 						label_category.setText("");
 						MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 						box.setText("提示");
-						box.setMessage("无参赛队伍信息！！");
+						box.setMessage("无参赛队伍信息!");
 						box.open();
 					}
 				} else {
 					MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 					box.setText("提示");
-					box.setMessage("数据库连接失败！！");
+					box.setMessage("数据库连接失败!");
 					box.open();
 				}
 				query.close();
@@ -706,13 +731,20 @@ public class MatchPanel extends Composite {
 							&& !deduction_score.getText().equals("")) {
 						sub_score = deduction_score.getText();
 					}
+
+					String add_score = "0";
+					if (append_score.getText() != null
+							&& !append_score.getText().equals("")) {
+						add_score = append_score.getText();
+					}
+
 					/* 计算总得分 */
 					total_score.setText(cs.calcTotalScore(score1.getText(),
 							score2.getText(), score3.getText(),
 							score4.getText(), score5.getText(),
 							score6.getText(), score7.getText(),
 							score8.getText(), score9.getText(),
-							score10.getText(), sub_score));
+							score10.getText(), sub_score, add_score));
 					/* 计算总误差 */
 					List<Float> deviation = cs.getDeviations(score1.getText(),
 							score2.getText(), score3.getText(),
@@ -740,8 +772,8 @@ public class MatchPanel extends Composite {
 												score6.getText(),
 												score7.getText(),
 												score8.getText(),
-												score9.getText(),
-												score10.getText(), sub_score,
+												score9.getText(), sub_score,
+												add_score,
 
 												total_score.getText(),
 												deviation.get(0),
@@ -770,6 +802,7 @@ public class MatchPanel extends Composite {
 												score8.getText(),
 												score9.getText(),
 												score10.getText(), sub_score,
+												add_score,
 
 												total_score.getText(),
 												deviation.get(0),
@@ -788,16 +821,16 @@ public class MatchPanel extends Composite {
 										}
 									}
 									if (query.updateTeamStatu(id, 1) == -1) {
-										box.setMessage("更改队伍状态失败！");
+										box.setMessage("更改队伍状态失败!");
 										box.open();
 									}
 								} else if (match_model_combo.getText() != null
 										&& !match_model_combo.getText().equals(
 												"") && matchOrder == -1) {
-									box.setMessage("无参赛队伍信息！！");
+									box.setMessage("无参赛队伍信息!");
 									box.open();
 								} else {
-									box.setMessage("请选择赛事模式！！");
+									box.setMessage("请选择赛事模式!");
 									box.open();
 								}
 								next_btn.setEnabled(true);
@@ -810,7 +843,7 @@ public class MatchPanel extends Composite {
 								combo = false;
 							} else { // 延迟比赛
 								if (query.updateTeamStatu(re_id, 1) == -1) {
-									box.setMessage("更改队伍状态失败！");
+									box.setMessage("更改队伍状态失败!");
 									box.open();
 								}
 								if (deviation.size() == 9) {
@@ -819,9 +852,8 @@ public class MatchPanel extends Composite {
 											score3.getText(), score4.getText(),
 											score5.getText(), score6.getText(),
 											score7.getText(), score8.getText(),
-											score9.getText(),
-											score10.getText(), sub_score,
-											total_score.getText(),
+											score9.getText(), sub_score,
+											add_score, total_score.getText(),
 											deviation.get(0), deviation.get(1),
 											deviation.get(2), deviation.get(3),
 											deviation.get(4), deviation.get(5),
@@ -840,7 +872,7 @@ public class MatchPanel extends Composite {
 											score7.getText(), score8.getText(),
 											score9.getText(),
 											score10.getText(), sub_score,
-											total_score.getText(),
+											add_score, total_score.getText(),
 											deviation.get(0), deviation.get(1),
 											deviation.get(2), deviation.get(3),
 											deviation.get(4), deviation.get(5),
@@ -917,7 +949,7 @@ public class MatchPanel extends Composite {
 																ref_edit_shell,
 																SWT.OK);
 														box1.setText("提示");
-														box1.setMessage("发送失败，请重发！！");
+														box1.setMessage("发送失败，请重发!");
 														int val = box1.open();
 														if (val == SWT.OK)
 															return;
@@ -927,7 +959,7 @@ public class MatchPanel extends Composite {
 								}
 							}.start();
 						} else if (Float.valueOf(total_score.getText()) < 0) {
-							box.setMessage("该队伍总成绩小于零分，有误！");
+							box.setMessage("该队伍总成绩小于零分，有误!");
 							box.open();
 						} else {
 							// 总得分等于0
@@ -995,7 +1027,7 @@ public class MatchPanel extends Composite {
 																ref_edit_shell,
 																SWT.OK);
 														box1.setText("提示");
-														box1.setMessage("发送失败，请重发！！");
+														box1.setMessage("发送失败，请重发!");
 														int val = box1.open();
 														if (val == SWT.OK)
 															return;
@@ -1006,7 +1038,7 @@ public class MatchPanel extends Composite {
 							}.start();
 						}
 					} else {
-						box.setMessage("数据库连接失败！！");
+						box.setMessage("数据库连接失败!");
 						box.open();
 					}
 				}
@@ -1016,8 +1048,6 @@ public class MatchPanel extends Composite {
 
 	/**
 	 * 下一只参赛队伍
-	 * 
-	 * @throws
 	 */
 	public void nextTeamButton() {
 		next_btn.addSelectionListener(new SelectionAdapter() {
@@ -1037,7 +1067,7 @@ public class MatchPanel extends Composite {
 						|| match_model_combo.getText().equals("")) {
 					MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 					box.setText("提示");
-					box.setMessage("请选择赛事模式！！");
+					box.setMessage("请选择赛事模式!");
 					box.open();
 				} else {
 					matchOrder++;
@@ -1092,7 +1122,7 @@ public class MatchPanel extends Composite {
 																ref_edit_shell,
 																SWT.OK);
 														box.setText("提示");
-														box.setMessage("发送失败，请重发！！");
+														box.setMessage("发送失败，请重发!");
 														int val = box.open();
 														if (val == SWT.OK)
 															return;
@@ -1106,7 +1136,7 @@ public class MatchPanel extends Composite {
 																ref_edit_shell,
 																SWT.OK);
 														box.setText("提示");
-														box.setMessage("未获得接收地址，请稍等片刻！");
+														box.setMessage("未获得接收地址，请稍等片刻!");
 														int val = box.open();
 														if (val == SWT.OK)
 															return;
@@ -1129,7 +1159,7 @@ public class MatchPanel extends Composite {
 					} else {
 						MessageBox box = new MessageBox(ref_edit_shell, SWT.OK);
 						box.setText("提示");
-						box.setMessage("数据库连接失败！！");
+						box.setMessage("数据库连接失败!");
 						box.open();
 					}
 					query.close();
@@ -1157,9 +1187,10 @@ public class MatchPanel extends Composite {
 				int message = messagebox.open();
 				if (message == SWT.YES) {
 					e.doit = true;
-
-					cleanScore(); // 清空列表内容
-					setScoreZore(); // 设置界面分数为零分
+					// 清空列表内容
+					cleanScore();
+					// 设置界面分数为零分
+					setScoreZore();
 					calc_btn.setEnabled(false);
 					hasScore = false;
 					reSelect = false;
@@ -1171,14 +1202,14 @@ public class MatchPanel extends Composite {
 					box.setText("提示");
 					if (match_model_combo.getText() == null
 							|| match_model_combo.getText().equals("")) {
-						box.setMessage("请选择赛事模式！");
+						box.setMessage("请选择赛事模式!");
 						box.open();
 					} else {
 						MatchTeamScore query = new MatchTeamScore();
 						if (query.isCollected()) {
 							if (re_id != 0) {
 								if (query.updateTeamStatu(re_id, 2) == -1) {
-									box.setMessage("更改队伍状态失败！");
+									box.setMessage("更改队伍状态失败!");
 									box.open();
 								} else {
 									title.setText("该参赛队伍比赛暂停......");
@@ -1187,7 +1218,7 @@ public class MatchPanel extends Composite {
 									category_combo.setEnabled(true);
 								}
 							} else if (query.updateTeamStatu(id, 2) == -1) {
-								box.setMessage("更改队伍状态失败！");
+								box.setMessage("更改队伍状态失败!");
 								box.open();
 							} else {
 								title.setText("该参赛队伍比赛暂停......");
@@ -1197,7 +1228,7 @@ public class MatchPanel extends Composite {
 							}
 							re_id = 0;
 						} else {
-							box.setMessage("数据库连接失败！！");
+							box.setMessage("数据库连接失败!");
 							box.open();
 						}
 						query.close();
@@ -1233,14 +1264,14 @@ public class MatchPanel extends Composite {
 				box.setText("提示");
 				if (match_model_combo.getText() == null
 						|| match_model_combo.getText().equals("")) {
-					box.setMessage("请选择赛事模式！！");
+					box.setMessage("请选择赛事模式!");
 					box.open();
 				} else {
 					MatchTeamScore query = new MatchTeamScore();
 					if (query.isCollected()) {
 						if (re_id != 0) {
 							if (query.updateTeamStatu(re_id, 3) == 0) {
-								box.setMessage("更改队伍状态失败！");
+								box.setMessage("更改队伍状态失败!");
 								box.open();
 							} else {
 								title.setText("该参赛队伍弃权比赛......");
@@ -1248,14 +1279,14 @@ public class MatchPanel extends Composite {
 							}
 							re_id = 0;
 						} else if (query.updateTeamStatu(id, 3) == 0) {
-							box.setMessage("更改队伍状态失败！");
+							box.setMessage("更改队伍状态失败!");
 							box.open();
 						} else {
 							title.setText("该参赛队伍弃权比赛......");
 							label_category.setText("");
 						}
 					} else {
-						box.setMessage("数据库连接失败！！");
+						box.setMessage("数据库连接失败!");
 						box.open();
 					}
 					query.close();
@@ -1417,7 +1448,7 @@ public class MatchPanel extends Composite {
 									MessageBox box = new MessageBox(
 											ref_edit_shell, SWT.OK);
 									box.setText("提示");
-									box.setMessage("发送失败，请重发！！");
+									box.setMessage("发送失败，请重发!");
 									int val = box.open();
 									if (val == SWT.OK)
 										return;
@@ -1430,7 +1461,7 @@ public class MatchPanel extends Composite {
 									MessageBox box = new MessageBox(
 											ref_edit_shell, SWT.OK);
 									box.setText("提示");
-									box.setMessage("未获得接收地址，请稍等片刻！");
+									box.setMessage("未获得接收地址，请稍等片刻!");
 									int val = box.open();
 									if (val == SWT.OK)
 										return;
@@ -1513,7 +1544,7 @@ public class MatchPanel extends Composite {
 										MessageBox box = new MessageBox(
 												ref_edit_shell, SWT.OK);
 										box.setText("提示");
-										box.setMessage("发送失败，请重发！！");
+										box.setMessage("发送失败，请重发!");
 										int val = box.open();
 										if (val == SWT.OK)
 											return;
@@ -1525,7 +1556,7 @@ public class MatchPanel extends Composite {
 										MessageBox box = new MessageBox(
 												ref_edit_shell, SWT.OK);
 										box.setText("提示");
-										box.setMessage("未获得接收地址，请稍等片刻！");
+										box.setMessage("未获得接收地址，请稍等片刻!");
 										int val = box.open();
 										if (val == SWT.OK)
 											return;
@@ -1571,7 +1602,7 @@ public class MatchPanel extends Composite {
 										MessageBox box1 = new MessageBox(
 												ref_edit_shell, SWT.OK);
 										box1.setText("提示");
-										box1.setMessage("发送失败，请重发！！");
+										box1.setMessage("发送失败，请重发!");
 										int val = box1.open();
 										if (val == SWT.OK)
 											return;
@@ -1583,7 +1614,7 @@ public class MatchPanel extends Composite {
 										MessageBox box = new MessageBox(
 												ref_edit_shell, SWT.OK);
 										box.setText("提示");
-										box.setMessage("未获得接收地址，请稍等片刻！");
+										box.setMessage("未获得接收地址，请稍等片刻!");
 										int val = box.open();
 										if (val == SWT.OK)
 											return;
@@ -1618,7 +1649,7 @@ public class MatchPanel extends Composite {
 
 				if (query.isCollected()) {
 					if (query.getAllReplayMatchNames().length == 0) {
-						box.setMessage("无补赛信息！");
+						box.setMessage("无补赛信息!");
 						box.open();
 						return;
 					}
@@ -1636,7 +1667,7 @@ public class MatchPanel extends Composite {
 						query.close();
 					}
 				} else {
-					box.setMessage("连接数据库失败！！");
+					box.setMessage("连接数据库失败!");
 					box.open();
 				}
 			}
@@ -1681,6 +1712,7 @@ public class MatchPanel extends Composite {
 		score9.setText("");
 		score10.setText("");
 		deduction_score.setText("");
+		append_score.setText("");
 		total_score.setText("");
 	}
 
@@ -1701,6 +1733,7 @@ public class MatchPanel extends Composite {
 		score9.setText("0");
 		score10.setText("0");
 		deduction_score.setText("0");
+		append_score.setText("0");
 		total_score.setText("0");
 	}
 
@@ -1846,6 +1879,15 @@ public class MatchPanel extends Composite {
 			}
 		}
 
+		if (append_score.getText() != null
+				&& !append_score.getText().equals("")) {
+			if (!p.matcher(append_score.getText()).matches()) {
+				box.setMessage("'裁判长加分'输入不合法,保留一位小数");
+				box.open();
+				b = false;
+			}
+		}
+
 		return b;
 	}
 
@@ -1865,7 +1907,7 @@ public class MatchPanel extends Composite {
 				if (re_id != 0) {
 					if (replay_matchType == -1 || replayMatchName == null
 							|| replayMatchName.length() == 0) {
-						box.setMessage("程序错误!!赛事名称或者赛事模式没有值!!");
+						box.setMessage("程序错误,赛事名称或者赛事模式没有值!");
 						box.open();
 					} else {
 						RankPanel window = new RankPanel();
@@ -1881,7 +1923,7 @@ public class MatchPanel extends Composite {
 
 						// 当matchName不为空时，跳出选择界面，让用户选择赛事模式
 						if (query.getAllMatchNames().length == 0) {
-							box.setMessage("无有成绩赛事！！");
+							box.setMessage("无有成绩赛事!");
 							box.open();
 							return;
 						}
@@ -1902,7 +1944,7 @@ public class MatchPanel extends Composite {
 									matchName_temp);
 							switch (temp) {
 							case -1: {
-								box.setMessage("暂无成绩！！");
+								box.setMessage("暂无成绩!");
 								box.open();
 								break;
 							}
@@ -1918,16 +1960,16 @@ public class MatchPanel extends Composite {
 							query.close();
 						}
 					} else {
-						box.setMessage("连接数据库失败！！");
+						box.setMessage("连接数据库失败!");
 						box.open();
 					}
 				} else {
 					int temp;
 					if (match_num == -1) {
-						box.setMessage("请选择场次！！");
+						box.setMessage("请选择场次!");
 						box.open();
 					} else if (matchName == null || matchName.equals("")) {
-						box.setMessage("赛事名称不能为空，程序错误！！");
+						box.setMessage("赛事名称不能为空，程序错误!");
 						box.open();
 					} else {
 						temp = query.getTeamMinId(matchType, matchName,
@@ -2029,5 +2071,13 @@ public class MatchPanel extends Composite {
 
 	public static void setDeduction_score(Text deduction_score) {
 		MatchPanel.deduction_score = deduction_score;
+	}
+
+	public static Text getAppend_score() {
+		return append_score;
+	}
+
+	public static void setAppend_score(Text append_score) {
+		MatchPanel.append_score = append_score;
 	}
 }

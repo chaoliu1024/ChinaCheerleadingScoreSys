@@ -29,14 +29,14 @@ public class ReviseScoreDao {
 
 	/** 将技巧排名更正的数据库写进数据库 */
 	public Boolean updateReviseSkillAll(List<HashMap<String, Object>> data) {
-		String sql = "update score set score1=?,score_error1=?,score2=?,score_error2=?,score3=?,score_error3=?,score4=?,score_error4=?,score5=?,score_error5=?,score6=?,score_error6=?,score7=?,score_error7=?,score8=?,score_error8=?,score9=?,score_error9=?,score10=?,score_error10=?,referee_sub_score=?,total_score=? where id=?";
+		String sql = "update score set score1=?,score_error1=?,score2=?,score_error2=?,score3=?,score_error3=?,score4=?,score_error4=?,score5=?,score_error5=?,score6=?,score_error6=?,score7=?,score_error7=?,score8=?,score_error8=?,score9=?,score_error9=?,score10=?,score_error10=?,referee_sub_score=?,referee_add_score=?,total_score=? where id=?";
 		if (connSql.insertBatch(data, sql, new String[] { "score1",
 				"score_error1", "score2", "score_error2", "score3",
 				"score_error3", "score4", "score_error4", "score5",
 				"score_error5", "score6", "score_error6", "score7",
 				"score_error7", "score8", "score_error8", "score9",
 				"score_error9", "score10", "score_error10", "sub_score",
-				"total", "scoreId" }) > 0) {
+				"add_score", "total", "scoreId" }) > 0) {
 			return true;
 		} else
 			return false;
@@ -45,13 +45,13 @@ public class ReviseScoreDao {
 
 	/** 将排名更正的数据库写进数据库 */
 	public Boolean updateReviseDanceAll(List<HashMap<String, Object>> data) {
-		String sql = "update score set score1=?,score_error1=?,score2=?,score_error2=?,score3=?,score_error3=?,score4=?,score_error4=?,score5=?,score_error5=?,score6=?,score_error6=?,score7=?,score_error7=?,score8=?,score_error8=?,score9=?,score_error9=?,referee_sub_score=?,total_score=? where id=?";
+		String sql = "update score set score1=?,score_error1=?,score2=?,score_error2=?,score3=?,score_error3=?,score4=?,score_error4=?,score5=?,score_error5=?,score6=?,score_error6=?,score7=?,score_error7=?,score8=?,score_error8=?,score9=?,score_error9=?,referee_sub_score=?,referee_add_score=?,total_score=? where id=?";
 		if (connSql.insertBatch(data, sql, new String[] { "score1",
 				"score_error1", "score2", "score_error2", "score3",
 				"score_error3", "score4", "score_error4", "score5",
 				"score_error5", "score6", "score_error6", "score7",
 				"score_error7", "score8", "score_error8", "score9",
-				"score_error9", "sub_score", "total", "scoreId" }) > 0) {
+				"score_error9", "sub_score", "add_score", "total", "scoreId" }) > 0) {
 			return true;
 		} else
 			return false;

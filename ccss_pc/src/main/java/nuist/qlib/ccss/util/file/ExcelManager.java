@@ -62,7 +62,6 @@ public class ExcelManager {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -98,7 +97,8 @@ public class ExcelManager {
 		cell0.setCellValue(matchName);
 		HSSFCellStyle matchNamestyle = wb.createCellStyle();
 		matchNamestyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		HSSFFont matchNameFont = wb.createFont(); // 设置字体样式
+		// 设置字体样式
+		HSSFFont matchNameFont = wb.createFont();
 		matchNameFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		matchNameFont.setFontHeight((short) (15 * 20));
 		matchNamestyle.setFont(matchNameFont);
@@ -109,7 +109,7 @@ public class ExcelManager {
 		}
 		String[] params = getParams();
 		// 将赛事标题所在行的第一列到第21列合并
-		sheet.addMergedRegion(new Region(0, (short) 0, 0, (short) 20));
+		sheet.addMergedRegion(new Region(0, (short) 0, 0, (short) 21));
 		// 创建子标题(占第二行和第三行，15和16列)
 		HSSFRow subRow = sheet.createRow(2);
 		HSSFCellStyle subStyle = wb.createCellStyle();
@@ -260,7 +260,7 @@ public class ExcelManager {
 		style.setWrapText(true);
 		HSSFRow row = sheet.createRow((short) 9);
 		row.setHeight((short) 350);
-		HSSFCell cell = row.createCell((short) 15);
+		HSSFCell cell = row.createCell((short) 17);
 		cell.setCellStyle(style);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellValue("最后得分");
@@ -315,11 +315,17 @@ public class ExcelManager {
 		cell.setCellStyle(style);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellValue("裁判长减分");
+
 		cell = row.createCell((short) 15);
 		cell.setCellStyle(style);
 		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+		cell.setCellValue("裁判长加分");
+
+		cell = row.createCell((short) 17);
+		cell.setCellStyle(style);
+		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellValue("最后得分");
-		sheet.addMergedRegion(new Region(9, (short) 15, 10, (short) 15));
+		sheet.addMergedRegion(new Region(9, (short) 17, 10, (short) 17));
 
 		// 添加数据时的样式
 		HSSFCellStyle datastyle = wb.createCellStyle();
@@ -341,12 +347,11 @@ public class ExcelManager {
 			left = 39 + pageSize * 41;
 			pageSize = pageSize + 1;
 		}
-		HSSFCellStyle footerStyle = wb.createCellStyle(); // 脚页面的文字
+		// 脚页面的文字
+		HSSFCellStyle footerStyle = wb.createCellStyle();
 		footerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		// System.out.println("pageSize:"+pageSize+","+left);
 		for (; i < left; i++) {
 
-			// System.out.println("导出成绩单："+i+":"+k);
 			HashMap<String, Object> o = (HashMap<String, Object>) data
 					.get(k - 1);
 
@@ -466,8 +471,18 @@ public class ExcelManager {
 			} else {
 				cell.setCellValue(String.valueOf(o.get("sub_score")));
 			}
-			/* 创建最后得分单元格 */
+
+			/* 创建裁判长减分的单元格 */
 			cell = row.getCell((short) 15);
+			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
+			if (o.get("add_score") == null) {
+				cell.setCellValue(0);
+			} else {
+				cell.setCellValue(String.valueOf(o.get("add_score")));
+			}
+
+			/* 创建最后得分单元格 */
+			cell = row.getCell((short) 17);
 			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			if (o.get("total") == null) {
 				cell.setCellValue(0);
@@ -588,7 +603,7 @@ public class ExcelManager {
 
 	/**
 	 * @param type
-	 *            表示导入数据的类型，判断是附加数据，还是直接导入数据,0表示直接导入，1表示附加数据
+	 *            表示导入数据的类型，判断是附加数据,还是直接导入数据,0表示直接导入,1表示附加数据
 	 * @return 0 表示获取数据库的配置信息不正确
 	 * @return 1 表示excel文件的数据写错或者是文件名错误
 	 * @return 2 表示导入数据库成功
@@ -610,8 +625,10 @@ public class ExcelManager {
 				HSSFSheet sheet = book.getSheetAt(0);
 				String temp = path.substring(path.lastIndexOf("\\") + 1,
 						path.indexOf("."));
-				String location = temp.substring(0, temp.indexOf("_")); // 赛事名称
-				String matchType = temp.substring(temp.indexOf("_") + 1); // 获得比赛类型
+				// 赛事名称
+				String location = temp.substring(0, temp.indexOf("_"));
+				// 获得比赛类型
+				String matchType = temp.substring(temp.indexOf("_") + 1);
 				// 检验文件名是否正确
 				if (matchType.equals("预赛")) {
 					matchType = "0";
@@ -661,9 +678,7 @@ public class ExcelManager {
 					}
 				}
 				// 没有存在,直接将数据导入数据库
-
 				sql = "insert into web_json (match_category,match_units,team_name,match_name,final_preliminary,sort_flag,player_name,coach_name,tb_name)values(?,?,?,?,?,?,?,?,?)";
-
 				// 将数据直接插入的过程
 				conn.setAutoCommit(false);
 				st = conn.prepareStatement(sql);
@@ -673,12 +688,18 @@ public class ExcelManager {
 				// 正文内容应该从第二行开始,第一行为表头的标题
 				for (int i = 1; i <= rowNum; i++) {
 					row = sheet.getRow(i);
-					HSSFCell cell = row.getCell((short) 0); // 参赛项目
-					HSSFCell cell2 = row.getCell((short) 1); // 参赛单位
-					HSSFCell cell3 = row.getCell((short) 2); // 队伍名称
-					HSSFCell cell4 = row.getCell((short) 3); // 成员名单
-					HSSFCell cell5 = row.getCell((short) 4); // 教练员名字
-					HSSFCell cell6 = row.getCell((short) 5); // 替补人员名单
+					// 参赛项目
+					HSSFCell cell = row.getCell((short) 0);
+					// 参赛单位
+					HSSFCell cell2 = row.getCell((short) 1);
+					// 队伍名称
+					HSSFCell cell3 = row.getCell((short) 2);
+					// 成员名单
+					HSSFCell cell4 = row.getCell((short) 3);
+					// 教练员名字
+					HSSFCell cell5 = row.getCell((short) 4);
+					// 替补人员名单
+					HSSFCell cell6 = row.getCell((short) 5);
 					if (cell == null || cell2 == null || cell3 == null
 							|| cell4 == null) {
 						return 1;

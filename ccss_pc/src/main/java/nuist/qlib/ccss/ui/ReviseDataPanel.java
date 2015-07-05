@@ -119,8 +119,9 @@ public class ReviseDataPanel {
 
 		shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		shell.setSize(1176, 610);
-		shell.setImage(new Image(display, ReviseDataPanel.class
-				.getResourceAsStream("/img/logo.png")));
+		// shell.setImage(new Image(display, ReviseDataPanel.class
+		// .getResourceAsStream("/img/logo.png")));
+		shell.setImage(new Image(display, "img/logo.png"));
 		shell.setText("数据更正");
 		Rectangle displayBounds = display.getPrimaryMonitor().getBounds();
 		Rectangle shellBounds = shell.getBounds();
@@ -178,6 +179,8 @@ public class ReviseDataPanel {
 			}
 		});
 		Button button = new Button(shell, SWT.NONE);
+		button.setBounds(1039, 537, 80, 27);
+		button.setText("确认更正");
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -188,17 +191,23 @@ public class ReviseDataPanel {
 							preparedHasReviseData(tree, matchKind), tree,
 							matchKind);
 				} else {
-					box.setMessage("数据库连接出错！！");
+					box.setMessage("数据库连接出错!");
 					box.open();
 				}
 			}
 		});
-		button.setBounds(1039, 537, 80, 27);
-		button.setText("确认更正");
-
 	}
 
-	/* 更新数据 */
+	/**
+	 * 更新数据
+	 * 
+	 * @param box
+	 * @param dao
+	 * @param realData
+	 * @param tree
+	 * @param matchKind
+	 * @since dss 1.0
+	 */
 	public void updateData(MessageBox box, ReviseScore dao,
 			List<HashMap<String, Object>> realData, Tree tree, int matchKind) {
 		boolean mark = false;
@@ -215,9 +224,10 @@ public class ReviseDataPanel {
 		}
 		final Font font = new Font(Display.getDefault(), "宋体", 10,
 				SWT.COLOR_BLUE);
-		final Color color = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);// 红色
+		// 填充色
+		final Color color = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		if (mark) {
-			box.setMessage("修正成功！！");
+			box.setMessage("修正成功!");
 			data = dao.getRank(matchName, category, matchType);
 			// 填充数据
 			TreeItem[] items = tree.getItems();
@@ -249,12 +259,16 @@ public class ReviseDataPanel {
 									.valueOf(data.get(i).get("sub_score")));
 					items[i].setText(
 							11,
+							data.get(i).get("add_score") == null ? "" : String
+									.valueOf(data.get(i).get("add_score")));
+					items[i].setText(
+							12,
 							new DecimalFormat("#.00").format(data.get(i).get(
 									"total")));
-					items[i].setText(12,
+					items[i].setText(13,
 							String.valueOf(data.get(i).get("rank")));
-					items[i].setFont(11, font);
-					items[i].setBackground(11, color);
+					items[i].setFont(12, font);
+					items[i].setBackground(12, color);
 				} else if (matchKind == 1) {
 					items[i].setText(
 							10,
@@ -266,22 +280,26 @@ public class ReviseDataPanel {
 									.valueOf(data.get(i).get("sub_score")));
 					items[i].setText(
 							12,
+							data.get(i).get("add_score") == null ? "" : String
+									.valueOf(data.get(i).get("add_score")));
+					items[i].setText(
+							13,
 							new DecimalFormat("#.00").format(data.get(i).get(
 									"total")));
-					items[i].setText(13,
+					items[i].setText(14,
 							String.valueOf(data.get(i).get("rank")));
-					items[i].setFont(12, font);
-					items[i].setBackground(12, color);
+					items[i].setFont(13, font);
+					items[i].setBackground(13, color);
 				}
 			}
 		} else {
-			box.setMessage("修正失败！！");
+			box.setMessage("修正失败!");
 		}
 		box.open();
 	}
 
 	/**
-	 * 计算成绩，并准备好数据集，准备插入数据库中
+	 * 计算成绩,并准备数据集,插入数据库中
 	 * 
 	 * @param tree
 	 * @param matchKind
@@ -301,7 +319,8 @@ public class ReviseDataPanel {
 						items[i].getText(4), items[i].getText(5),
 						items[i].getText(6), items[i].getText(7),
 						items[i].getText(8), items[i].getText(9),
-						items[i].getText(10), items[i].getText(11));
+						items[i].getText(10), items[i].getText(11),
+						items[i].getText(12));
 				List<Float> deviations = cs.getDeviations(items[i].getText(1),
 						items[i].getText(2), items[i].getText(3),
 						items[i].getText(4), items[i].getText(5),
@@ -333,6 +352,9 @@ public class ReviseDataPanel {
 				one.put("sub_score",
 						items[i].getText(11).trim().length() == 0 ? null
 								: items[i].getText(11));
+				one.put("add_score",
+						items[i].getText(12).trim().length() == 0 ? null
+								: items[i].getText(11));
 				one.put("total", totalScore);
 				realData.add(one);
 			}
@@ -343,7 +365,7 @@ public class ReviseDataPanel {
 						items[i].getText(4), items[i].getText(5),
 						items[i].getText(6), items[i].getText(7),
 						items[i].getText(8), items[i].getText(9), null,
-						items[i].getText(10));
+						items[i].getText(10), items[i].getText(11));
 				List<Float> deviations = cs.getDeviations(items[i].getText(1),
 						items[i].getText(2), items[i].getText(3),
 						items[i].getText(4), items[i].getText(5),
@@ -372,6 +394,9 @@ public class ReviseDataPanel {
 				one.put("sub_score",
 						items[i].getText(10).trim().length() == 0 ? null
 								: items[i].getText(10));
+				one.put("add_score",
+						items[i].getText(11).trim().length() == 0 ? null
+								: items[i].getText(11));
 				one.put("total", totalScore);
 				realData.add(one);
 			}
@@ -404,6 +429,7 @@ public class ReviseDataPanel {
 			referee10_score.setWidth(50);
 		}
 		TreeColumn chief_referee_sub_score = new TreeColumn(tree, SWT.CENTER);
+		TreeColumn chief_referee_add_score = new TreeColumn(tree, SWT.CENTER);
 		TreeColumn total = new TreeColumn(tree, SWT.CENTER);
 		TreeColumn rank = new TreeColumn(tree, SWT.CENTER);
 		match_units.setText("参赛单位");
@@ -417,6 +443,7 @@ public class ReviseDataPanel {
 		referee8_score.setText("裁判8");
 		referee9_score.setText("裁判9");
 		chief_referee_sub_score.setText("裁判长减分");
+		chief_referee_add_score.setText("裁判长加分");
 		total.setText("总分");
 		rank.setText("当前排名");
 		match_units.setWidth(200);
@@ -430,13 +457,14 @@ public class ReviseDataPanel {
 		referee8_score.setWidth(49);
 		referee9_score.setWidth(50);
 		chief_referee_sub_score.setWidth(75);
+		chief_referee_add_score.setWidth(75);
 		total.setWidth(64);
 		rank.setWidth(67);
 
 		// 填充数据
 		final Font font = new Font(Display.getDefault(), "宋体", 10,
 				SWT.COLOR_BLUE);
-		// 红色
+		// 填充颜色
 		final Color color = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		TreeItem item;
 		if (matchKind == 1) {
@@ -483,13 +511,15 @@ public class ReviseDataPanel {
 						: String.valueOf(data.get(i).get("score10")));
 				item.setText(11, data.get(i).get("sub_score") == null ? ""
 						: String.valueOf(data.get(i).get("sub_score")));
+				item.setText(12, data.get(i).get("add_score") == null ? ""
+						: String.valueOf(data.get(i).get("add_score")));
 				item.setText(
-						12,
+						13,
 						new DecimalFormat("#.00").format(data.get(i).get(
 								"total")));
-				item.setText(13, String.valueOf(data.get(i).get("rank")));
-				item.setFont(12, font);
-				item.setBackground(12, color);
+				item.setText(14, String.valueOf(data.get(i).get("rank")));
+				item.setFont(13, font);
+				item.setBackground(13, color);
 			}
 		} else {
 			for (int i = 0; i < data.size(); i++) {
@@ -533,13 +563,15 @@ public class ReviseDataPanel {
 								.valueOf(data.get(i).get("score9")));
 				item.setText(10, data.get(i).get("sub_score") == null ? ""
 						: String.valueOf(data.get(i).get("sub_score")));
+				item.setText(11, data.get(i).get("add_score") == null ? ""
+						: String.valueOf(data.get(i).get("add_score")));
 				item.setText(
-						11,
+						12,
 						new DecimalFormat("#.00").format(data.get(i).get(
 								"total")));
-				item.setText(12, String.valueOf(data.get(i).get("rank")));
-				item.setFont(11, font);
-				item.setBackground(11, color);
+				item.setText(13, String.valueOf(data.get(i).get("rank")));
+				item.setFont(12, font);
+				item.setBackground(12, color);
 			}
 		}
 	}

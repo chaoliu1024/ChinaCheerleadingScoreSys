@@ -102,8 +102,9 @@ public class RankPanel {
 
 		rank_shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		rank_shell.setSize(1176, 653);
-		rank_shell.setImage(new Image(display, RankPanel.class
-				.getResourceAsStream("/img/logo.png")));
+		// rank_shell.setImage(new Image(display, RankPanel.class
+		// .getResourceAsStream("/img/logo.png")));
+		rank_shell.setImage(new Image(display, "img/logo.png"));
 		rank_shell.addShellListener(new ShellAdapter() {
 			public void shellClosed(ShellEvent e) {
 				if (score.isCollected()) {
@@ -212,7 +213,7 @@ public class RankPanel {
 			}
 		});
 
-		/* 跳转到挑选项目人数界面 */
+		/** 跳转到挑选项目人数界面 */
 		export_all_but.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -227,7 +228,6 @@ public class RankPanel {
 					box.setMessage("未与数据库连接");
 					box.open();
 				}
-
 			}
 		});
 
@@ -343,7 +343,7 @@ public class RankPanel {
 							_tuNames = null;
 						}
 						PDFManager pdf = new PDFManager();
-						if (_rank == 1) {
+						if (_rank == 1 || _rank == 2 || _rank == 3) {
 							if (data.get(i).get("coachName") != null) {
 								coach_name = data.get(i).get("coachName")
 										.toString();
@@ -370,7 +370,6 @@ public class RankPanel {
 						box.setMessage("获奖证书导出失败");
 						box.open();
 					}
-
 				} else {
 					box.setMessage("赛事名称,参赛项目不能为空值");
 					box.open();
@@ -410,6 +409,7 @@ public class RankPanel {
 			referee10_score.setWidth(50);
 		}
 		TableColumn chief_referee_sub_score = new TableColumn(table, SWT.CENTER);
+		TableColumn chief_referee_add_score = new TableColumn(table, SWT.CENTER);
 		TableColumn total = new TableColumn(table, SWT.CENTER);
 		TableColumn rank = new TableColumn(table, SWT.CENTER);
 		team_name.setText("参赛单位");
@@ -423,6 +423,7 @@ public class RankPanel {
 		referee8_score.setText("裁判8");
 		referee9_score.setText("裁判9");
 		chief_referee_sub_score.setText("裁判长减分");
+		chief_referee_add_score.setText("裁判长加分");
 		total.setText("总分");
 		rank.setText("排名");
 		team_name.setWidth(300);
@@ -436,12 +437,14 @@ public class RankPanel {
 		referee8_score.setWidth(60);
 		referee9_score.setWidth(60);
 		chief_referee_sub_score.setWidth(75);
+		chief_referee_add_score.setWidth(75);
 		total.setWidth(65);
 		rank.setWidth(73);
 
 		TableItem item;
 		Font font = new Font(Display.getDefault(), "宋体", 10, SWT.COLOR_BLUE);
-		Color color = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);// 红色
+		// 填充色
+		Color color = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		if (matchKind == 1) {
 			for (int i = 0; i < data.size(); i++) {
 				item = new TableItem(table, SWT.NONE);
@@ -469,11 +472,13 @@ public class RankPanel {
 								: data.get(i).get("score10")),
 						String.valueOf(data.get(i).get("sub_score") == null ? ""
 								: data.get(i).get("sub_score")),
+						String.valueOf(data.get(i).get("add_score") == null ? ""
+								: data.get(i).get("add_score")),
 						String.valueOf(new DecimalFormat("#0.00").format(data
 								.get(i).get("total"))),
 						String.valueOf(data.get(i).get("rank")) });
-				item.setFont(12, font);
-				item.setBackground(12, color);
+				item.setFont(13, font);
+				item.setBackground(13, color);
 			}
 		} else
 			for (int i = 0; i < data.size(); i++) {
@@ -500,11 +505,13 @@ public class RankPanel {
 								: data.get(i).get("score9")),
 						String.valueOf(data.get(i).get("sub_score") == null ? ""
 								: data.get(i).get("sub_score")),
+						String.valueOf(data.get(i).get("add_score") == null ? ""
+								: data.get(i).get("add_score")),
 						String.valueOf(new DecimalFormat("#0.00").format(data
 								.get(i).get("total"))),
 						String.valueOf(data.get(i).get("rank")) });
-				item.setFont(11, font);
-				item.setBackground(11, color);
+				item.setFont(12, font);
+				item.setBackground(12, color);
 			}
 		return table;
 	}
