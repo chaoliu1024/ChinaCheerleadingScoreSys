@@ -119,9 +119,9 @@ public class ReviseDataPanel {
 
 		shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		shell.setSize(1176, 610);
-		// shell.setImage(new Image(display, ReviseDataPanel.class
-		// .getResourceAsStream("/img/logo.png")));
-		shell.setImage(new Image(display, "img/logo.png"));
+		shell.setImage(new Image(display, ReviseDataPanel.class
+				.getResourceAsStream("/img/logo.png")));
+		// shell.setImage(new Image(display, "img/logo.png"));
 		shell.setText("数据更正");
 		Rectangle displayBounds = display.getPrimaryMonitor().getBounds();
 		Rectangle shellBounds = shell.getBounds();

@@ -38,11 +38,11 @@ public class ConnSQL {
 		logger = Logger.getLogger(ConnSQL.class);
 		Properties props = new Properties();
 		try {
-			// InputStream in = ConnSQL.class
-			// .getResourceAsStream("/dataBase.properties");
-			// String relativelyPath=System.getProperty("user.dir");
-			InputStream in = new FileInputStream(System.getProperty("user.dir")
-					+ "\\dataBase.properties");
+			InputStream in = ConnSQL.class
+					.getResourceAsStream("/dataBase.properties");
+			String relativelyPath = System.getProperty("user.dir");
+//			InputStream in = new FileInputStream(System.getProperty("user.dir")
+//					+ "\\dataBase.properties");
 			props.load(in);
 			port = props.getProperty("port");
 			ip = props.getProperty("ip");

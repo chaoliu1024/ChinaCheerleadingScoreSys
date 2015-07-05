@@ -284,9 +284,13 @@ public class QueryScore {
 		for (HashMap<String, Object> temp : data) {
 			players = temp.get("playerNames");
 			if (players != null) {
-				player = "("
-						+ players.toString().substring(0,
-								players.toString().indexOf(",")) + "等人)";
+				if (players.toString().contains(",")) {
+					player = "("
+							+ players.toString().substring(0,
+									players.toString().indexOf(",")) + "等人)";
+				} else {
+					player = "(" + players.toString() + ")";
+				}
 			}
 			temp.put("playerNames", player);
 		}

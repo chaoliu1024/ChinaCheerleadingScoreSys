@@ -102,9 +102,9 @@ public class RankPanel {
 
 		rank_shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		rank_shell.setSize(1176, 653);
-		// rank_shell.setImage(new Image(display, RankPanel.class
-		// .getResourceAsStream("/img/logo.png")));
-		rank_shell.setImage(new Image(display, "img/logo.png"));
+		rank_shell.setImage(new Image(display, RankPanel.class
+				.getResourceAsStream("/img/logo.png")));
+		// rank_shell.setImage(new Image(display, "img/logo.png"));
 		rank_shell.addShellListener(new ShellAdapter() {
 			public void shellClosed(ShellEvent e) {
 				if (score.isCollected()) {

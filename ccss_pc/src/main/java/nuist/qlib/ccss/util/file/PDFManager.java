@@ -91,9 +91,10 @@ public class PDFManager {
 		try {
 
 			// 创建一个pdf读入流
-			// PdfReader reader = new PdfReader(
-			// PDFManager.class.getResourceAsStream("/templet.pdf"));
-			PdfReader reader = new PdfReader(relativelyPath + "\\templet.pdf");
+			PdfReader reader = new PdfReader(
+					PDFManager.class.getResourceAsStream("/templet.pdf"));
+			// PdfReader reader = new PdfReader(relativelyPath +
+			// "\\templet.pdf");
 
 			createDir(path);
 
@@ -102,12 +103,12 @@ public class PDFManager {
 					path + pdfName + ".pdf"));
 
 			// 设置字体,使用simsun.ttc字体样式
-			// BaseFont bf = BaseFont.createFont(relativelyPath
-			// + "\\src\\main\\resources\\simsun.ttc,1",
-			// BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			BaseFont bf = BaseFont.createFont(
-					relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
-					BaseFont.EMBEDDED);
+			BaseFont bf = BaseFont.createFont(relativelyPath
+					+ "\\src\\main\\resources\\simsun.ttc,1",
+					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			// BaseFont bf = BaseFont.createFont(
+			// relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
+			// BaseFont.EMBEDDED);
 
 			Font font = new Font(bf, 10, Font.BOLD);
 			font.getBaseFont();
@@ -247,9 +248,10 @@ public class PDFManager {
 
 		try {
 			// 创建一个pdf读入流
-			PdfReader reader = new PdfReader(relativelyPath + "\\templet.pdf");
-			// PdfReader reader = new PdfReader(
-			// PDFManager.class.getResourceAsStream("/templet.pdf"));
+			// PdfReader reader = new PdfReader(relativelyPath +
+			// "\\templet.pdf");
+			PdfReader reader = new PdfReader(
+					PDFManager.class.getResourceAsStream("/templet.pdf"));
 
 			createDir(path);
 
@@ -258,12 +260,12 @@ public class PDFManager {
 					path + pdfName + ".pdf"));
 
 			// 设置字体,使用simsun.ttc字体样式
-			// BaseFont bf = BaseFont.createFont(relativelyPath
-			// + "\\src\\main\\resources\\simsun.ttc,1",
-			// BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			BaseFont bf = BaseFont.createFont(
-					relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
-					BaseFont.EMBEDDED);
+			BaseFont bf = BaseFont.createFont(relativelyPath
+					+ "\\src\\main\\resources\\simsun.ttc,1",
+					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			// BaseFont bf = BaseFont.createFont(
+			// relativelyPath + "\\simsun.ttc,1", BaseFont.IDENTITY_H,
+			// BaseFont.EMBEDDED);
 
 			Font font = new Font(bf, 10, Font.BOLD);
 			font.getBaseFont();

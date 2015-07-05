@@ -94,9 +94,9 @@ public class MainUI {
 		shell = new Shell(display, SWT.CLOSE | SWT.MIN);
 		shell.setSize(1123, 710);
 		shell.setText("啦啦操竞赛评分系统");
-		// shell.setImage(new Image(display,
-		// MainUI.class.getResourceAsStream("/img/logo.png")));
-		shell.setImage(new Image(display, "img/logo.png"));
+		shell.setImage(new Image(display, MainUI.class
+				.getResourceAsStream("/img/logo.png")));
+		// shell.setImage(new Image(display, "img/logo.png"));
 		shell.addShellListener(new ShellAdapter() {
 			public void shellClosed(ShellEvent e) {
 				MessageBox messagebox = new MessageBox(shell, SWT.ICON_QUESTION
