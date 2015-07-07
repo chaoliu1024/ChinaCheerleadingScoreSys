@@ -4,6 +4,7 @@
 
 package nuist.qlib.ccss.dao;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,9 +41,9 @@ public class ConnSQL {
 		try {
 			InputStream in = ConnSQL.class
 					.getResourceAsStream("/dataBase.properties");
-			String relativelyPath = System.getProperty("user.dir");
-//			InputStream in = new FileInputStream(System.getProperty("user.dir")
-//					+ "\\dataBase.properties");
+			// InputStream in = new
+			// FileInputStream(System.getProperty("user.dir")
+			// + "\\dataBase.properties");
 			props.load(in);
 			port = props.getProperty("port");
 			ip = props.getProperty("ip");
@@ -52,7 +53,7 @@ public class ConnSQL {
 			conn = connectDataBase();
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 		}
 	}
 
@@ -145,7 +146,7 @@ public class ConnSQL {
 			conn.setAutoCommit(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 			result = -1;
 		}
 		return result;
@@ -171,7 +172,7 @@ public class ConnSQL {
 				result = -1;
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 			result = -1;
 		}
 		return result;
@@ -204,7 +205,7 @@ public class ConnSQL {
 			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 		}
 		return result;
 	}
@@ -245,7 +246,7 @@ public class ConnSQL {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			logger.error(e.toString());
 		}
 	}
 }

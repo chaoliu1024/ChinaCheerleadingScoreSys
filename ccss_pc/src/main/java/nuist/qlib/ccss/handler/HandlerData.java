@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.json.JSONArray;
 import nuist.qlib.ccss.dao.HistoryDataOperDao;
 import nuist.qlib.ccss.util.file.JSONManager;
@@ -34,6 +37,8 @@ public class HandlerData {
 	private HistoryDataOperDao dao;
 	private File downLoadFile;
 	private String urlString;
+
+	private static Logger logger = LoggerFactory.getLogger(HandlerData.class);
 
 	public HandlerData() {
 		manager = new JSONManager();
@@ -93,11 +98,13 @@ public class HandlerData {
 			fs.close();
 			return "ok";
 		} catch (FileNotFoundException e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 			return "无法连接网络!";
 		} catch (IOException e) {
+			logger.error(e.toString());
 			e.printStackTrace();
-			return e.getMessage();
+			return e.toString();
 		}
 	}
 
@@ -112,7 +119,7 @@ public class HandlerData {
 			String result = manager.JSONInput(array);
 			return result;
 		} else {
-			return "无数据!";
+			return "5:";
 		}
 	}
 

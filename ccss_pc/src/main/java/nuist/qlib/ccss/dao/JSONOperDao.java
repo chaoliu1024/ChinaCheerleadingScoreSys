@@ -7,6 +7,9 @@ package nuist.qlib.ccss.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author Fang Wang
@@ -16,6 +19,7 @@ public class JSONOperDao {
 
 	// 连接数据库需要的变量
 	private ConnSQL connSql;
+	private static Logger logger = LoggerFactory.getLogger(JSONOperDao.class);
 
 	/** 构造函数，读取数据库的配置，同时与数据库建立连接 */
 	public JSONOperDao() {
@@ -73,8 +77,9 @@ public class JSONOperDao {
 			} else
 				return "4"; // 可以直接导入数据
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
-			return e.getMessage();
+			return e.toString();
 		}
 	}
 

@@ -25,6 +25,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 下载队伍序列以及历史数据的处理
@@ -36,6 +38,10 @@ public class HandlerDataPanel extends Composite {
 	public static HandlerDataPanel handlerDataPanel;
 	private HandlerData handler;
 	private Button chose_btn;
+
+	@SuppressWarnings("unused")
+	private static Logger logger = LoggerFactory
+			.getLogger(HandlerDataPanel.class);
 
 	/**
 	 * Create the composite.
@@ -55,14 +61,14 @@ public class HandlerDataPanel extends Composite {
 		group.setBounds(55, 61, 862, 84);
 
 		Button download_btn = new Button(group, SWT.NONE);
+		download_btn.setBounds(170, 30, 80, 27);
+		download_btn.setText("下载");
 		download_btn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				download(shell);
 			}
 		});
-		download_btn.setBounds(170, 30, 80, 27);
-		download_btn.setText("下载");
 
 		Button btnExcel = new Button(group, SWT.NONE);
 		btnExcel.addSelectionListener(new SelectionAdapter() {
@@ -186,7 +192,7 @@ public class HandlerDataPanel extends Composite {
 				} else {
 					MessageBox box = new MessageBox(shell);
 					box.setText("警告");
-					box.setMessage("数据库连接失败!!");
+					box.setMessage("数据库连接失败!");
 					box.open();
 				}
 			}
@@ -204,7 +210,7 @@ public class HandlerDataPanel extends Composite {
 				} else {
 					MessageBox box = new MessageBox(shell);
 					box.setText("警告");
-					box.setMessage("数据库连接失败!!");
+					box.setMessage("数据库连接失败!");
 					box.open();
 				}
 			}
@@ -276,12 +282,12 @@ public class HandlerDataPanel extends Composite {
 			}
 		}
 		if (noScoreMathes.size() == 0 && hasScoreMathes.size() == 0) {
-			box2.setMessage("请选择要删除的赛事!!");
+			box2.setMessage("请选择要删除的赛事!");
 			box2.open();
 			return;
 		}
 		if (noScoreMathes.size() != 0) {
-			box.setMessage("您确定要删除没有比赛的赛事吗??");
+			box.setMessage("您确定要删除没有比赛的赛事吗?");
 			if (box.open() == SWT.OK) {
 				mark = true;
 			} else {
@@ -292,21 +298,20 @@ public class HandlerDataPanel extends Composite {
 			int result = handler.deleteMatches(hasScoreMathes, noScoreMathes);
 			switch (result) {
 			case 0:
-				box2.setMessage("删除成功!!");
+				box2.setMessage("删除成功!");
 				box2.open();
 				break;
 			case 1:
-				box2.setMessage("删除有成绩的赛事失败!!");
+				box2.setMessage("删除有成绩的赛事失败!");
 				box2.open();
 				break;
 			case 2:
-				box2.setMessage("删除没有成绩的赛事失败!!");
+				box2.setMessage("删除没有成绩的赛事失败!");
 				box2.open();
 				break;
 			}
 			String[][] matches = handler.getMatchNames();
 			createMathCheck(content_composite, matches);
-
 		}
 
 	}
@@ -385,7 +390,7 @@ public class HandlerDataPanel extends Composite {
 		if (download_result.equals("ok")) { // 下载文件成功
 			String[] result = handler.operaJSONFile().split(":");
 			if (result[0].equals("ok")) {
-				box.setMessage("下载并入库成功!!");
+				box.setMessage("下载并入库成功!");
 				box.open();
 			} else {
 				switch (Integer.valueOf(result[0])) {
@@ -394,49 +399,49 @@ public class HandlerDataPanel extends Composite {
 					box.open();
 					break;
 				case 2: // 赛事已经有排好的队伍序列
-					box2.setMessage(result[1] + "确定要重新入库和排序吗??");
+					box2.setMessage(result[1] + "确定要重新入库和排序吗?");
 					if (box2.open() == SWT.OK) {
 						if (handler.isCollected()) {
 							if (handler.deleteOrder_Web()) {
 								String[] temp = handler.operaJSONFile().split(
 										":");
 								if (temp[0].equals("5")) {
-									box.setMessage("入库失败!!");
+									box.setMessage("入库失败!");
 									box.open();
 								} else if (temp[0].equals("ok")) {
-									box.setMessage("入库成功!!");
+									box.setMessage("入库成功!");
 									box.open();
 								}
 							} else {
-								box.setMessage("无法删除旧的数据!!");
+								box.setMessage("无法删除旧的数据!");
 								box.open();
 							}
 						}
 					}
 					break;
 				case 3: // web_json表中已经有数据
-					box2.setMessage(result[1] + "确定要重新入库吗??");
+					box2.setMessage(result[1] + "确定要重新入库吗?");
 					if (box2.open() == SWT.OK) {
 						if (handler.isCollected()) {
 							if (handler.deleteWebJSON()) {
 								String[] temp = handler.operaJSONFile().split(
 										":");
 								if (temp[0].equals("5")) {
-									box.setMessage("入库失败!!");
+									box.setMessage("入库失败!");
 									box.open();
 								} else if (temp[0].equals("ok")) {
-									box.setMessage("入库成功!!");
+									box.setMessage("入库成功!");
 									box.open();
 								}
 							} else {
-								box.setMessage("无法删除旧的数据!!");
+								box.setMessage("无法删除旧的数据!");
 								box.open();
 							}
 						}
 					}
 					break;
 				case 5:
-					box.setMessage("入库失败!!");
+					box.setMessage("入库失败!");
 					box.open();
 					break;
 				}

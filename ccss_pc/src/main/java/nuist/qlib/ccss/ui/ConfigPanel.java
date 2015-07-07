@@ -124,7 +124,7 @@ public class ConfigPanel extends Composite {
 				} else {
 					MessageBox box = new MessageBox(shell, SWT.OK | SWT.CANCEL);
 					box.setText("提示");
-					box.setMessage("存在以下问题是否继续??\n" + mention);
+					box.setMessage("存在以下问题是否继续?\n" + mention);
 					if (box.open() == SWT.OK) {
 						mark = true;
 					}
@@ -196,16 +196,16 @@ public class ConfigPanel extends Composite {
 				MessageBox box = new MessageBox(shell);
 				box.setText("提示");
 				if (download_text.getText().trim().length() == 0) {
-					box.setMessage("下载地址不能为空!!");
+					box.setMessage("下载地址不能为空!");
 				} else if (tempDir_text.getText().trim().length() == 0) {
-					box.setMessage("临时存放目录不能为空!!");
+					box.setMessage("临时存放目录不能为空!");
 				} else if (loadScore_text.getText().trim().length() == 0) {
-					box.setMessage("上传成绩地址不能为空!!");
+					box.setMessage("上传成绩地址不能为空!");
 				} else {
 					config.updateProParams(download_text.getText().trim(),
 							tempDir_text.getText().trim(), loadScore_text
 									.getText().trim());
-					box.setMessage("更新成功!!");
+					box.setMessage("更新成功!");
 				}
 				box.open();
 			}

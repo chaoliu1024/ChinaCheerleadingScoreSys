@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import nuist.qlib.ccss.dao.JSONOperDao;
@@ -31,6 +34,8 @@ public class JSONManager {
 	private File file; // JSON文件
 	private String matchName;
 	private JSONOperDao dao;
+
+	private static Logger logger = LoggerFactory.getLogger(JSONManager.class);
 
 	public JSONManager() {
 		this.dao = new JSONOperDao();
@@ -69,6 +74,7 @@ public class JSONManager {
 				array = object.getJSONArray("data");
 			}
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 		return array;
@@ -81,99 +87,111 @@ public class JSONManager {
 	 * @return
 	 */
 	public String JSONInput(JSONArray array) {
-		JSONObject object = null;
-		JSONArray subArray = null;
-		List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> one = null;
-		boolean checkMark = false;
 
-		for (int i = 0; i < array.size(); i++) {
-			object = array.getJSONObject(i);
-			subArray = object.getJSONArray("items");
-			JSONObject subObject = null;
-			for (int j = 0; j < subArray.size(); j++) {
-				subObject = subArray.getJSONObject(j);
-				int webId = subObject.getInt("id");
-				String category = subObject.getString("subject");
-				String teamName = subObject.getString("mingcheng");
-				matchName = subObject.getString("sjname")
-						+ subObject.getString("sqname");
-				if (!checkMark) {
-					String checkResult = dao.checkHasData(matchName);
-					if (checkResult.equals("1")) {
-						return "1:" + matchName + "赛事已经有成绩，请删除相关数据再导入数据!";
-					} else if (checkResult.equals("2")) {
-						return "2:" + matchName + "赛事已经有排好的队伍!";
-					} else if (checkResult.equals("3")) {
-						return "3:" + matchName + "赛事已经入库!";
-					} else if (checkResult.equals("4")) {
-						checkMark = true;
+		try {
+			JSONObject object = null;
+			JSONArray subArray = null;
+			List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
+			HashMap<String, Object> one = null;
+			boolean checkMark = false;
+
+			for (int i = 0; i < array.size(); i++) {
+				object = array.getJSONObject(i);
+				subArray = object.getJSONArray("items");
+				JSONObject subObject = null;
+				for (int j = 0; j < subArray.size(); j++) {
+					subObject = subArray.getJSONObject(j);
+					int webId = subObject.getInt("id");
+					String category = subObject.getString("subject");
+					String teamName = subObject.getString("mingcheng");
+					matchName = subObject.getString("sjname")
+							+ subObject.getString("sqname");
+					if (!checkMark) {
+						String checkResult = dao.checkHasData(matchName);
+						if (checkResult.equals("1")) {
+							return "1:" + matchName + "赛事已经有成绩，请删除相关数据再导入数据!";
+						} else if (checkResult.equals("2")) {
+							return "2:" + matchName + "赛事已经有排好的队伍!";
+						} else if (checkResult.equals("3")) {
+							return "3:" + matchName + "赛事已经入库!";
+						} else if (checkResult.equals("4")) {
+							checkMark = true;
+						} else {
+							return "5:导入失败!"; // 发生异常错误
+						}
+					}
+					String unit = subObject.getString("danwei");
+
+					JSONArray members = subObject.containsKey("member") ? subObject
+							.getJSONArray("member") : subObject
+							.getJSONArray("members");
+					String playerMember = "";
+					for (int k = 0; k < members.size(); k++) {
+						Object name = members.getJSONObject(k)
+								.getString("name");
+						if (name != null
+								&& name.toString().trim().length() != 0) {
+							playerMember += name.toString() + ",";
+						}
+					}
+					if (!playerMember.equals("")) {
+						playerMember = playerMember.substring(0,
+								playerMember.lastIndexOf(","));
+					}
+
+					JSONArray coachs = subObject.getJSONArray("jlmember");
+					String coachsMember = "";
+					for (int k = 0; k < coachs.size(); k++) {
+						Object name = coachs.getJSONObject(k).getString("name");
+						if (name != null
+								&& name.toString().trim().length() != 0) {
+							coachsMember += name.toString() + ",";
+						}
+					}
+					if (!coachsMember.equals("")) {
+						coachsMember = coachsMember.substring(0,
+								coachsMember.lastIndexOf(","));
+					}
+
+					JSONArray tuNames = subObject.getJSONArray("hbmember");
+					String tuNamesString = "";
+					for (int k = 0; k < tuNames.size(); k++) {
+						Object name = tuNames.getJSONObject(k)
+								.getString("name");
+						if (name != null
+								&& name.toString().trim().length() != 0) {
+							tuNamesString += name.toString() + ",";
+						}
+					}
+					if (!tuNamesString.equals("")) {
+						tuNamesString = tuNamesString.substring(0,
+								tuNamesString.lastIndexOf(","));
 					} else {
-						return "5:导入失败!"; // 发生异常错误
+						tuNamesString = null;
 					}
+					one = new HashMap<String, Object>();
+					one.put("webId", webId);
+					one.put("category", category);
+					one.put("units", unit);
+					one.put("teamName", teamName);
+					one.put("preliminary", 0);
+					one.put("matchName", matchName);
+					one.put("sortFlag", 0);
+					one.put("members", playerMember);
+					one.put("coachs", coachsMember);
+					one.put("tuNames", tuNamesString);
+					data.add(one);
 				}
-				String unit = subObject.getString("danwei");
-
-				JSONArray members = subObject.containsKey("member") ? subObject
-						.getJSONArray("member") : subObject
-						.getJSONArray("members");
-				String playerMember = "";
-				for (int k = 0; k < members.size(); k++) {
-					Object name = members.getJSONObject(k).getString("name");
-					if (name != null && name.toString().trim().length() != 0) {
-						playerMember += name.toString() + ",";
-					}
-				}
-				if (!playerMember.equals("")) {
-					playerMember = playerMember.substring(0,
-							playerMember.lastIndexOf(","));
-				}
-
-				JSONArray coachs = subObject.getJSONArray("jlmember");
-				String coachsMember = "";
-				for (int k = 0; k < coachs.size(); k++) {
-					Object name = coachs.getJSONObject(k).getString("name");
-					if (name != null && name.toString().trim().length() != 0) {
-						coachsMember += name.toString() + ",";
-					}
-				}
-				if (!coachsMember.equals("")) {
-					coachsMember = coachsMember.substring(0,
-							coachsMember.lastIndexOf(","));
-				}
-
-				JSONArray tuNames = subObject.getJSONArray("hbmember");
-				String tuNamesString = "";
-				for (int k = 0; k < tuNames.size(); k++) {
-					Object name = tuNames.getJSONObject(k).getString("name");
-					if (name != null && name.toString().trim().length() != 0) {
-						tuNamesString += name.toString() + ",";
-					}
-				}
-				if (!tuNamesString.equals("")) {
-					tuNamesString = tuNamesString.substring(0,
-							tuNamesString.lastIndexOf(","));
-				} else {
-					tuNamesString = null;
-				}
-				one = new HashMap<String, Object>();
-				one.put("webId", webId);
-				one.put("category", category);
-				one.put("units", unit);
-				one.put("teamName", teamName);
-				one.put("preliminary", 0);
-				one.put("matchName", matchName);
-				one.put("sortFlag", 0);
-				one.put("members", playerMember);
-				one.put("coachs", coachsMember);
-				one.put("tuNames", tuNamesString);
-				data.add(one);
 			}
+			if (dao.insertBatchJson(data))
+				return "ok:";
+			else
+				return "5:导入失败!"; // 发生异常错误
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+			return "5:导入失败!";
 		}
-		if (dao.insertBatchJson(data))
-			return "ok:";
-		else
-			return "5:导入失败!"; // 发生异常错误
 	}
 
 	/***
@@ -230,7 +248,7 @@ public class JSONManager {
 					+ URLEncoder.encode(result, "utf-8");
 			return uploadWeb(url, params);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			logger.error(e.toString());
 			e.printStackTrace();
 			return -1 + ":" + e.getMessage();
 		}
@@ -281,6 +299,7 @@ public class JSONManager {
 			}
 			return 3 + ":网站无响应";
 		} catch (Exception e) {
+			logger.error(e.toString());
 			e.printStackTrace();
 			return -1 + ":" + e.getMessage();
 		}
