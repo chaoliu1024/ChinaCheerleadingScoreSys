@@ -67,7 +67,7 @@ public class SpringDBAction {
 				list.add(map);
 			}
 		} catch (Exception e) {
-			logger.error("查询sql执行出错...");
+			logger.error("鏌ヨsql鎵ц鍑洪敊...");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -99,7 +99,7 @@ public class SpringDBAction {
 			}
 			return 0;
 		} catch (Exception e) {
-			logger.error("查询sql执行出错...");
+			logger.error("鏌ヨsql鎵ц鍑洪敊...");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -127,7 +127,7 @@ public class SpringDBAction {
 			rs = pst.executeUpdate();
 		} catch (Exception e) {
 			rs = -1;
-			logger.error("更新sql执行出错...");
+			logger.error("鏇存柊sql鎵ц鍑洪敊...");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -161,7 +161,7 @@ public class SpringDBAction {
 				ee.printStackTrace();
 			}
 			rs = -1;
-			logger.error("更新sql执行出错...");
+			logger.error("鏇存柊sql鎵ц鍑洪敊...");
 			e.printStackTrace();
 		} finally {
 			try {

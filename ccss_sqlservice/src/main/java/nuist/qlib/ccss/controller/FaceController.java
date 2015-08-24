@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * ¿ØÖÆÂß¼­
+ * æ§åˆ¶é€»è¾‘
  * 
  * @author Fang Wang
  * @since ccss 1.0
@@ -41,7 +41,7 @@ public class FaceController {
 	}
 
 	/***
-	 * »ñµÃËùÓĞµÄ½ÇÉ«
+	 * è·å¾—æ‰€æœ‰çš„è§’è‰²
 	 * 
 	 * @param request
 	 * @param response
@@ -71,7 +71,7 @@ public class FaceController {
 	}
 
 	/***
-	 * Éí·İĞ£Ñé
+	 * èº«ä»½æ ¡éªŒ
 	 * 
 	 * @param request
 	 * @param response
@@ -93,17 +93,17 @@ public class FaceController {
 				new Object[] { role });
 		String result = "";
 		if (data.get(0).get("state").toString().equals("true")) {
-			result = "false"; // ¸ÃÉí·İÒÑ¾­ÓĞÈËµÇÂ½¹ı
+			result = "false"; // è¯¥èº«ä»½å·²ç»æœ‰äººç™»é™†è¿‡
 		} else {
 			if (this.springDBAction.update(
 					"update roles set login_flag=? where role_value=?",
 					new Object[] { 1, role }) > 0) {
-				result = "true"; // ³É¹¦µÇÂ½
+				result = "true"; // æˆåŠŸç™»é™†
 			} else
-				result = "fail"; // µÇÂ½Ê§°Ü
+				result = "fail"; // ç™»é™†å¤±è´¥
 		}
 		try {
-			logger.debug("µÇÂ½½á¹û£º" + result);
+			logger.debug("ç™»é™†ç»“æœï¼š" + result);
 			response.getWriter().write(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -112,7 +112,7 @@ public class FaceController {
 	}
 
 	/***
-	 * ÍË³öµÇÂ½
+	 * é€€å‡ºç™»é™†
 	 * 
 	 * @param request
 	 * @param response
@@ -133,11 +133,11 @@ public class FaceController {
 		if (this.springDBAction.update(
 				"update roles set login_flag=? where role_value=?",
 				new Object[] { 0, role }) > 0) {
-			result = "true"; // ³É¹¦ÍË³ö
+			result = "true"; // æˆåŠŸé€€å‡º
 		} else
-			result = "fail"; // ÍË³öÊ§°Ü
+			result = "fail"; // é€€å‡ºå¤±è´¥
 		try {
-			logger.debug("ÍË³öµÇÂ½£º" + result + ":" + role);
+			logger.debug("é€€å‡ºç™»é™†ï¼š" + result + ":" + role);
 			response.getWriter().write(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -146,7 +146,7 @@ public class FaceController {
 	}
 
 	/***
-	 * »ñÈ¡Íâ¹ú±ÈÈü³É¼¨µÄÅÅÃû
+	 * è·å–å¤–å›½æ¯”èµ›æˆç»©çš„æ’å
 	 * 
 	 * @param request
 	 * @param response
@@ -197,7 +197,7 @@ public class FaceController {
 	}
 
 	/***
-	 * °´ÕÕÍâ¹ú±ÈÈüÃû³ÆÒÔ¼°ÈüÊÂÄ£Ê½È¡³öÆäÖĞËùÓĞµÄÏîÄ¿
+	 * æŒ‰ç…§å¤–å›½æ¯”èµ›åç§°ä»¥åŠèµ›äº‹æ¨¡å¼å–å‡ºå…¶ä¸­æ‰€æœ‰çš„é¡¹ç›®
 	 * 
 	 * @param request
 	 * @param response
@@ -227,7 +227,7 @@ public class FaceController {
 	}
 
 	/***
-	 * »ñµÃ¸ÃÈüÊÂÄ£Ê½ÏÂËùÓĞÒÑ¾­±È¹ıµÄÈüÊÂÃû³Æ
+	 * è·å¾—è¯¥èµ›äº‹æ¨¡å¼ä¸‹æ‰€æœ‰å·²ç»æ¯”è¿‡çš„èµ›äº‹åç§°
 	 * 
 	 * @param request
 	 * @param response
